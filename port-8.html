@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hriday Shah | Interactive Terminal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --text-color: #f0f0f0;
+            --accent-color: #4CAF50;
+            --error-color: #ff5555;
+            --prompt-color: #4CAF50;
+            --cursor-color: #4CAF50;
+            --header-bg: #2d2d2d;
+            --terminal-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            --terminal-border: 1px solid rgba(255, 255, 255, 0.1);
+            --selection-color: rgba(76, 175, 80, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #121212;
+            color: var(--text-color);
+            font-family: 'SF Mono', 'Courier New', monospace;
+            line-height: 1.6;
+            margin: 0;
+            padding: 10px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* background-image: 
+                radial-gradient(circle at 25% 25%, rgba(76, 175, 80, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(76, 175, 80, 0.1) 0%, transparent 50%); */
+            overflow: hidden;
+        }
+
+        /* Loading screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        .loading-text {
+            position: relative;
+            z-index: 2;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            text-align: center;
+            text-shadow: 0 0 10px #0f0;
+            margin-top: 20px;
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        .loading-ascii {
+            color: #0f0;
+            font-family: monospace;
+            white-space: pre;
+            font-size: 12px;
+            line-height: 1.2;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        @keyframes pulse {
+            from { opacity: 0.5; }
+            to { opacity: 1; }
+        }
+
+        .terminal-container {
+            width: 100%;
+            max-width: 900px;
+            height: 80vh;
+            max-height: 650px;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.95);
+            opacity: 0;
+            animation: terminalEntrance 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes terminalEntrance {
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .terminal {
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            box-shadow: var(--terminal-shadow);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+            border: var(--terminal-border);
+            transition: transform 0.3s ease;
+        }
+
+        .terminal:hover {
+            transform: translateY(-5px);
+        }
+
+        .terminal-header {
+            background-color: var(--header-bg);
+            height: 40px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            border-bottom: var(--terminal-border);
+            user-select: none;
+            position: relative;
+        }
+
+        .terminal-buttons {
+            display: flex;
+            gap: 8px;
+            position: absolute;
+            left: 15px;
+        }
+
+        .terminal-button {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 8px;
+            color: transparent;
+        }
+
+        .terminal-button:hover {
+            transform: scale(1.1);
+        }
+
+        .terminal-button:hover::after {
+            color: rgba(0, 0, 0, 0.6);
+        }
+
+        .button-red { 
+            background-color: #ff5f56; 
+        }
+        .button-red:hover::after {
+            content: '×';
+        }
+
+        .button-yellow { 
+            background-color: #ffbd2e; 
+        }
+        .button-yellow:hover::after {
+            content: '−';
+        }
+
+        .button-green { 
+            background-color: #27c93f; 
+        }
+        .button-green:hover::after {
+            content: '⤢';
+        }
+
+        .terminal-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            color: #aaa;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            max-width: 60%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .header-social-icons {
+            position: absolute;
+            right: 15px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .header-social-icons a {
+            color: #aaa;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .header-social-icons a:hover {
+            color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .terminal-body {
+            background-color: var(--bg-color);
+            padding: 15px;
+            flex-grow: 1;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-color) var(--header-bg);
+        }
+
+        .terminal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .terminal-body::-webkit-scrollbar-track {
+            background: var(--header-bg);
+        }
+
+        .terminal-body::-webkit-scrollbar-thumb {
+            background-color: var(--accent-color);
+            border-radius: 4px;
+        }
+
+        .command-line {
+            display: flex;
+            margin-bottom: 5px;
+            align-items: center;
+        }
+
+        .prompt {
+            color: var(--prompt-color);
+            margin-right: 10px;
+            white-space: nowrap;
+            user-select: none;
+            font-size: 14px;
+        }
+
+        .input-line {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            position: relative;
+        }
+
+        #command-input {
+            background-color: transparent;
+            border: none;
+            color: var(--text-color);
+            font-family: inherit;
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+            caret-color: var(--cursor-color);
+            flex-grow: 1;
+            text-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+            letter-spacing: 0.3px;
+        }
+
+        #command-input::selection {
+            background: var(--selection-color);
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background-color: var(--cursor-color);
+            animation: blink 1s infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+            box-shadow: 0 0 10px var(--cursor-color);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .output {
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            animation: fadeIn 0.3s ease-out;
+            font-size: 14px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .command {
+            color: var(--accent-color);
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
+        }
+
+        .error {
+            color: var(--error-color);
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--accent-color);
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+
+        a:hover {
+            text-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+        }
+
+        a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid var(--accent-color);
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent-color); }
+        }
+
+        .ascii-container {
+            width: 100%;
+            overflow: hidden;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .ascii-art {
+            color: var(--accent-color);
+            line-height: 1.2;
+            font-size: 10px;
+            animation: fadeIn 1s ease-out;
+            display: inline-block;
+            text-align: center;
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+
+        .welcome-container {
+            text-align: center;
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 5px;
+            background: rgba(76, 175, 80, 0.05);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .welcome-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+        }
+
+        .welcome-subtitle {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+
+        @media (max-width: 768px) {
+            .terminal-container {
+                height: 85vh;
+                max-width: 95%;
+                max-height: none;
+            }
+            
+            .ascii-art {
+                font-size: 8px;
+                transform: scale(0.8);
+            }
+            
+            .terminal-body {
+                padding: 10px;
+            }
+            
+            .prompt, #command-input, .output {
+                font-size: 13px;
+            }
+            
+            .cursor {
+                height: 14px;
+            }
+            
+            .welcome-title {
+                font-size: 20px;
+            }
+            
+            .welcome-subtitle {
+                font-size: 14px;
+            }
+            
+            .terminal-title {
+                max-width: 50%;
+                font-size: 12px;
+            }
+            
+            .header-social-icons a {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .terminal-container {
+                height: 90vh;
+            }
+            
+            .ascii-art {
+                font-size: 6px;
+                transform: scale(0.6);
+            }
+            
+            .header-social-icons {
+                gap: 8px;
+            }
+            
+            .header-social-icons a {
+                font-size: 12px;
+            }
+            
+            .terminal-title {
+                font-size: 11px;
+                max-width: 40%;
+            }
+            
+            .prompt, #command-input, .output {
+                font-size: 12px;
+            }
+            
+            .cursor {
+                height: 12px;
+                width: 6px;
+            }
+            
+            .welcome-title {
+                font-size: 18px;
+            }
+            
+            .welcome-subtitle {
+                font-size: 13px;
+            }
+            
+            .terminal-buttons {
+                gap: 6px;
+            }
+            
+            .terminal-button {
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+        .command-highlight {
+            background: rgba(76, 175, 80, 0.2);
+            padding: 2px 5px;
+            border-radius: 3px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { background: rgba(76, 175, 80, 0.2); }
+            50% { background: rgba(76, 175, 80, 0.4); }
+            100% { background: rgba(76, 175, 80, 0.2); }
+        }
+
+        .tabbed {
+            display: inline-block;
+            width: 20px;
+        }
+
+        .rainbow-text {
+            background: linear-gradient(90deg, #4CAF50, #2196F3, #9C27B0, #FF9800, #4CAF50);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: rainbow 8s ease infinite;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .login-line {
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 2s steps(40, end);
+        }
+
+        .help-line {
+            margin: 10px 0;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        /* Particle background effect */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: rgba(76, 175, 80, 0.5);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading screen -->
+    <div id="loading-screen">
+        <div class="loading-ascii">
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠖⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡤⢤⡀⠀⠀⠀⠀⢸⠀⢱⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠳⡀⠈⠢⡀⠀⠀⢀⠀⠈⡄⠀⠀⠀⠀⠀⠀⡔⠦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠊⡹⠀⠀⠘⢄⠀⠈⠲⢖⠈⠀⠀⠱⡀⠀⠀⠀⠀⠀⠀⠙⣄⠈⠢⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢀⡠⠖⠁⢠⠞⠀⠀⠀⠀⠘⡄⠀⠀⠀⠀⠀⠀⠀⢱⠀⠀⠀⠀⠀⠀⠀⠀⠈⡆⠀⠀⠉⠑⠢⢄⣀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⡠⠚⠁⠀⠀⠀⡇⠀⠀⠀⠀⠀⢀⠇⠀⡤⡀⠀⠀⠀⢀⣼⠀⠀⠀⠀⠀⠀⠀⠀⡇⢠⣾⣿⣷⣶⣤⣄⣉⠑⣄⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⢀⠞⢁⣴⣾⣿⣿⡆⢇⠀⠀⠀⠀⠀⠸⡀⠀⠂⠿⢦⡰⠀⠀⠋⡄⠀⠀⠀⠀⠀⠀⢰⠁⣿⣿⣿⣿⣿⣿⣿⣿⣷⣌⢆⠀⠀⠀⠀
+⠀⠀⠀⡴⢁⣴⣿⣿⣿⣿⣿⣿⡘⡄⠀⠀⠀⠀⠀⠱⣔⠤⡀⠀⠀⠀⠀⠀⠈⡆⠀⠀⠀⠀⠀⡜⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣮⢣⠀⠀⠀
+⠀⠀⡼⢠⣾⣿⣿⣿⣿⣿⣿⣿⣧⡘⢆⠀⠀⠀⠀⠀⢃⠑⢌⣦⠀⠩⠉⠀⡜⠀⠀⠀⠀⠀⢠⠃⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣣⡀⠀
+⠀⢰⢃⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠱⡀⠀⠀⠀⢸⠀⠀⠓⠭⡭⠙⠋⠀⠀⠀⠀⠀⠀⡜⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡱⡄
+⠀⡏⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⢃⠀⠀⠀⢸⠀⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⢀⠜⢁⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠘⣆
+⢸⢱⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡘⣆⠀⠀⡆⠀⠀⠀⠀⠘⡄⠀⠀⠀⡠⠖⣡⣾⠁⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⢸
+⡏⣾⣿⣿⣿⣿⡿⡛⢟⢿⣿⣿⣿⣿⣿⣿⣧⡈⢦⣠⠃⠀⠀⠀⠀⠀⢱⣀⠤⠒⢉⣾⡉⠻⠋⠈⢘⢿⣿⣿⣿⣿⠿⣿⣿⠏⠉⠻⢿⣿⣿⣿⡘⡆
+⢰⡇⣿⣿⠟⠁⢸⣠⠂⡄⣃⠜⣿⣿⠿⠿⣿⣿⡿⠦⡎⠀⠀⠀⠀⠒⠉⠉⠑⣴⣿⣿⣎⠁⠠⠂⠮⢔⣿⡿⠉⠁⠀⠹⡛⢀⣀⡠⠀⠙⢿⣿⡇⡇
+⠘⡇⠏⠀⠀⠀⡾⠤⡀⠑⠒⠈⠣⣀⣀⡀⠤⠋⢀⡜⣀⣠⣤⣀⠀⠀⠀⠀⠀⠙⢿⡟⠉⡃⠈⢀⠴⣿⣿⣀⡀⠀⠀⠀⠈⡈⠊⠀⠀⠀⠀⠙⢿⡇⡇
+⠀⠿⠀⠀⠀⠀⠈⠀⠉⠙⠓⢤⣀⠀⠁⣀⡠⢔⡿⠊⠀⠀⠀⠀⠙⢦⡀⠀⠐⠢⢄⡀⠁⡲⠃⠀⡜⠀⠹⠟⠻⣿⣰⡐⣄⠎⠀⠀⠀⠀⠀⠀⠀⢣⡇
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠁⠀⡜⠀⠀⠀⠀⠀⠀⠀⠀⠱⡀⠀⠀⠀⠙⢦⣀⢀⡴⠁⠀⠀⠀⠀⠉⠁⢱⠈⢆⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⢱⠀⠀⠀⠀⠈⢏⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠈⡆⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠱⡄⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡜⠀⢹⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠘⣆⠀⠀⠀⠀⠀⠀⣰⠃⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡾⠀⠀⠘⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⠁⠀⠀⠀⠀⠀⠀⠸⡄⠀⠀⠀⢀⡴⠁⠀⠀⢀⠇⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢧⠀⠀⠀⠘⢆⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⣧⣠⠤⠖⠋⠀⠀⠀⠀⡸⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠢⡀⠀⠀⠀⠳⢄⠀⠀⠀⠀⠀⠀⠀⢣⠀⠀⠀⠀⠀⠀⠀⠀⡏⠀⠀⠀⠀⠀⠀⢀⡴⠁⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡠⠊⠈⠈⠁⠀⠀⠀⡔⠛⠲⣤⣀⣀⣀⠀⠈⢣⡀⠀⠀⠀⠀⠀⢸⠁⠀⠀⠀⢀⡠⢔⠝⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⢈⠤⠒⣀⠀⠀⠀⠀⣀⠟⠀⠀⠀⠑⠢⢄⡀⠀⠀⠀⠈⡗⠂⠀⠀⠀⠙⢦⠤⠒⢊⡡⠚⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠆⠒⣒⡁⠬⠦⠒⠉⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠒⢺⢠⠤⡀⢀⠤⡀⠠⠷⡊⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠣⡀⡱⠧⡀⢰⠓⠤⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠁⠀⠈⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+        </div>
+        <div class="loading-text">Loading...</div>
+    </div>
+    
+    <div class="terminal-container" style="display: none;">
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <div class="terminal-button button-red"></div>
+                    <div class="terminal-button button-yellow"></div>
+                    <div class="terminal-button button-green"></div>
+                </div>
+                <div class="terminal-title">Hriday Shah — Interactive Terminal</div>
+                
+                <div class="header-social-icons">
+                    <a href="https://github.com/hridayshah" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/hridayshah" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:hriday@example.com" title="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="#" title="Resume"><i class="fas fa-file-pdf"></i></a>
+                </div>
+            </div>
+            <div class="terminal-body" id="terminal-output">
+                <div class="output">
+                    <div class="login-line">Last login: <span id="current-date"></span> on ttys000</div>
+                    <!-- <div class="ascii-container">
+                        <div class="ascii-art">
+                            ╔════════════════════════════════════════════╗
+                            ║                                            ║
+                            ║    ██╗  ██╗██████╗ ██╗██████╗  █████╗     ║
+                            ║    ██║  ██║██╔══██╗██║██╔══██╗██╔══██╗    ║
+                            ║    ███████║██████╔╝██║██║  ██║███████║    ║
+                            ║    ██╔══██║██╔══██╗██║██║  ██║██╔══██║    ║
+                            ║    ██║  ██║██║  ██║██║██████╔╝██║  ██║    ║
+                            ║    ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═════╝ ╚═╝  ╚═╝    ║
+                            ║                                            ║
+                            ╚════════════════════════════════════════════╝
+                        </div>
+                    </div> -->
+                    <div class="welcome-container">
+                        <div class="welcome-title">Welcome to Hriday's Terminal</div>
+                        <div class="welcome-subtitle">AI Researcher | Data Scientist | Developer</div>
+                    </div>
+                    <div class="help-line">Type <span class="command-highlight">help</span> to see available commands</div>
+                </div>
+            </div>
+            <div class="command-line">
+                <div class="prompt">hriday@portfolio:~$</div>
+                <div class="input-line">
+                    <input type="text" id="command-input" autofocus spellcheck="false" autocorrect="off" autocapitalize="off">
+                    <div class="cursor"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const terminalContainer = document.querySelector('.terminal-container');
+            
+            // Show loading screen for 2 seconds then show terminal
+            setTimeout(() => {
+                loadingScreen.style.opacity = 1;
+                
+                // Fade out loading screen
+                let opacity = 1;
+                const fadeInterval = setInterval(() => {
+                    opacity -= 0.05;
+                    loadingScreen.style.opacity = opacity;
+                    
+                    if (opacity <= 0) {
+                        clearInterval(fadeInterval);
+                        loadingScreen.style.display = 'none';
+                        terminalContainer.style.display = 'flex';
+                        
+                        // Initialize terminal
+                        initTerminal();
+                    }
+                }, 50);
+            }, 2000);
+        });
+        
+        function initTerminal() {
+            // Set current date with animation
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            const now = new Date();
+            const dateElement = document.getElementById('current-date');
+            
+            // Animate date typing
+            const dateStr = now.toLocaleDateString('en-US', options);
+            let i = 0;
+            const dateInterval = setInterval(() => {
+                dateElement.textContent = dateStr.substring(0, i);
+                i++;
+                if (i > dateStr.length) clearInterval(dateInterval);
+            }, 50);
+            
+            const terminalOutput = document.getElementById('terminal-output');
+            const commandInput = document.getElementById('command-input');
+            
+            // Create floating particles
+            const particlesContainer = document.createElement('div');
+            particlesContainer.classList.add('particles');
+            document.body.appendChild(particlesContainer);
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.width = `${Math.random() * 3 + 1}px`;
+                particle.style.height = particle.style.width;
+                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                particlesContainer.appendChild(particle);
+            }
+            
+            // Theme management
+            let themeMode = 'default';
+            const themes = {
+                "default": { 
+                    bg: "#1e1e1e", 
+                    text: "#f0f0f0", 
+                    accent: "#4CAF50", 
+                    header: "#2d2d2d",
+                    cursor: "#4CAF50",
+                    prompt: "#4CAF50"
+                },
+                "dark": { 
+                    bg: "#121212", 
+                    text: "#e0e0e0", 
+                    accent: "#BB86FC", 
+                    header: "#1e1e1e",
+                    cursor: "#BB86FC",
+                    prompt: "#BB86FC"
+                },
+                "light": { 
+                    bg: "#f8f8f8", 
+                    text: "#333333", 
+                    accent: "#2962FF", 
+                    header: "#e0e0e0",
+                    cursor: "#2962FF",
+                    prompt: "#2962FF"
+                },
+                "solarized": { 
+                    bg: "#002b36", 
+                    text: "#839496", 
+                    accent: "#b58900", 
+                    header: "#073642",
+                    cursor: "#b58900",
+                    prompt: "#b58900"
+                },
+                "dracula": { 
+                    bg: "#282a36", 
+                    text: "#f8f8f2", 
+                    accent: "#bd93f9", 
+                    header: "#44475a",
+                    cursor: "#bd93f9",
+                    prompt: "#bd93f9"
+                }
+            };
+            
+            function changeTheme(themeName) {
+                if (themes[themeName]) {
+                    const root = document.documentElement;
+                    const theme = themes[themeName];
+                    
+                    root.style.setProperty('--bg-color', theme.bg);
+                    root.style.setProperty('--text-color', theme.text);
+                    root.style.setProperty('--accent-color', theme.accent);
+                    root.style.setProperty('--header-bg', theme.header);
+                    root.style.setProperty('--cursor-color', theme.cursor);
+                    root.style.setProperty('--prompt-color', theme.prompt);
+                    
+                    themeMode = themeName;
+                    return true;
+                }
+                return false;
+            }
+            
+            function showThemeOptions() {
+                let output = '<span class="rainbow-text">Available themes:</span>\n';
+                for (const [name, theme] of Object.entries(themes)) {
+                    output += `<span class="command">${name}</span> - ${theme.accent}<span style="color:${theme.accent}">■</span> ${theme.bg}<span style="background:${theme.bg};padding:0 5px">■</span>\n`;
+                }
+                output += '\nType just the theme name to change (e.g. <span class="command">dracula</span>)';
+                return output;
+            }
+            
+            // Enhanced commands with more details and animations
+            const commands = {
+                help: {
+                    description: "Show available commands",
+                    execute: function() {
+                        return `
+<span class="rainbow-text">Available commands:</span>
+<span class="command">about</span>        - About Hriday
+<span class="command">projects</span>     - View projects with details
+<span class="command">experience</span>   - Work experience and achievements
+<span class="command">skills</span>       - Technical skills and proficiencies
+<span class="command">education</span>    - Academic background
+<span class="command">publications</span> - Publications & certifications
+<span class="command">contact</span>      - Contact information
+<span class="command">clear</span>        - Clear terminal screen
+<span class="command">ls</span>           - List all available pages
+<span class="command">cat resume.pdf</span> - Download my resume
+<span class="command">theme</span>        - Change terminal color theme
+<span class="command">exit</span>         - Close terminal (just kidding)
+
+Type <span class="command">command --help</span> for more info about a specific command.
+                        `;
+                    }
+                },
+                about: {
+                    description: "About Hriday",
+                    execute: function() {
+                        return `
+<span class="rainbow-text">Hriday Shah</span>
+-----------------------
+• B.Tech CSE – Data Science, VIT-AP
+• Passionate about AI, Data Science, and Finance
+• Coffee enthusiast and book lover
+• Always learning and exploring new technologies
+
+<span class="command">Technical Focus:</span>
+- Machine Learning & Deep Learning
+- Natural Language Processing
+- Computer Vision
+- Data Analysis & Visualization
+- Algorithmic Trading
+
+<span class="command">Philosophy:</span>
+"Simplicity is the ultimate sophistication." - Leonardo da Vinci
+"First solve the problem, then write the code." - John Johnson
+
+<span class="command">Hobbies:</span>
+📚 Reading technical and philosophical books
+☕ Exploring specialty coffee
+🎵 Listening to jazz and classical music
+🚴 Cycling and outdoor activities
+                        `;
+                    }
+                },
+                projects: {
+                    description: "View projects with details",
+                    execute: function() {
+                        return `
+<span class="rainbow-text">Major Projects:</span>
+----------------
+
+<span class="command">CRISP</span> - A novel approach to data analysis
+<span class="tabbed"></span>• Advanced data processing framework
+<span class="tabbed"></span>• Published research paper
+<span class="tabbed"></span>• Technologies: Python, Pandas, Scikit-learn
+
+<span class="command">WALK</span> - AI-powered walking assistant
+<span class="tabbed"></span>• Real-time gait analysis
+<span class="tabbed"></span>• Mobile application with TensorFlow Lite
+<span class="tabbed"></span>• Won Hack-AP 2023 (3rd Place)
+
+<span class="command">SpaceX Capstone</span> - Data analysis of SpaceX launches
+<span class="tabbed"></span>• Predictive modeling of launch success
+<span class="tabbed"></span>• Interactive dashboard with Plotly
+<span class="tabbed"></span>• Technologies: Python, SQL, Tableau
+
+<span class="command">WAV2Lip-HQ</span> - High-quality lip-sync for videos
+<span class="tabbed"></span>• Improved version of Wav2Lip model
+<span class="tabbed"></span>• Enhanced resolution and synchronization
+<span class="tabbed"></span>• Technologies: PyTorch, OpenCV
+
+<span class="command">Liquid Neural Networks</span> - Research on dynamic architectures
+<span class="tabbed"></span>• Exploring continuous-time neural networks
+<span class="tabbed"></span>• Applications in time-series prediction
+<span class="tabbed"></span>• Technologies: PyTorch, NumPy
+
+<span class="command">View code on GitHub:</span> <a href="https://github.com/hridayshah" target="_blank">github.com/hridayshah</a>
+                        `;
+                    }
+                },
+                experience: {
+                    description: "Work experience and achievements",
+                    execute: function() {
+                        return `
+<span class="rainbow-text">Professional Experience:</span>
+-------------------------
+
+<span class="command">Awarathon</span> - AI Research Intern (2023)
+<span class="tabbed"></span>• Developed novel ML models for educational assessment
+<span class="tabbed"></span>• Implemented NLP techniques for text analysis
+<span class="tabbed"></span>• Contributed to research publications
+
+<span class="command">Dubsync.ai</span> - Machine Learning Intern (2022)
+<span class="tabbed"></span>• Worked on audio-visual synchronization algorithms
+<span class="tabbed"></span>• Optimized deep learning models for real-time use
+<span class="tabbed"></span>• Improved lip-sync accuracy by 15%
+
+<span class="command">CSI @ VIT-AP</span> - Technical Lead (2021-2023)
+<span class="tabbed"></span>• Organized hackathons and workshops
+<span class="tabbed"></span>• Mentored 50+ students in ML and programming
+<span class="tabbed"></span>• Developed community learning resources
+
+<span class="command">Hack-AP 2023</span> - 3rd Place Winner
+<span class="tabbed"></span>• Developed WALK application in 36-hour hackathon
+<span class="tabbed"></span>• Implemented real-time ML on mobile devices
+<span class="tabbed"></span>• Awarded for technical innovation
+
+<span class="command">View full details on LinkedIn:</span> <a href="https://linkedin.com/in/hridayshah" target="_blank">linkedin.com/in/hridayshah</a>
+                        `;
+                    }
+                },
+                skills: {
+                    description: "Technical skills and proficiencies",
+                    execute: function() {
+                        return `
+<span class="rainbow-text">Technical Skills:</span>
+-------------------
+
+<span class="command">Programming Languages:</span>
+Python (Expert), JavaScript, SQL, C++, Java
+
+<span class="command">Machine Learning:</span>
+TensorFlow, PyTorch, Scikit-learn, Keras, OpenCV
+
+<span class="command">Data Science:</span>
+Pandas, NumPy, Matplotlib, Seaborn, Plotly
+
+<span class="command">Web Development:</span>
+React, Node.js, HTML/CSS, Flask, Django
+
+<span class="command">DevOps & Tools:</span>
+Git, Docker, AWS, Linux, Jupyter Notebooks
+
+<span class="command">Other Skills:</span>
+Algorithm Design, Data Structures, Statistical Analysis, 
+Data Visualization, Technical Writing
+
+<span class="command">Languages:</span>
+English (Fluent), Hindi (Native), Spanish (Basic)
+                        `;
+                    }
+                },
+                education: {
+                    description: "Academic background",
+                    execute: function() {
+                        return `
+<span class="rainbow-text">Education:</span>
+------------
+
+<span class="command">VIT-AP University</span> (2020-2024)
+B.Tech in Computer Science - Data Science Specialization
+GPA: 3.8/4.0
+
+<span class="command">Relevant Coursework:</span>
+- Advanced Machine Learning
+- Deep Learning Architectures
+- Natural Language Processing
+- Big Data Analytics
+- Algorithm Design
+- Database Systems
+
+<span class="command">Academic Achievements:</span>
+- Dean's List (3 semesters)
+- Best Thesis Award (2023)
+- Published 2 research papers
+                        `;
+                    }
+                },
+                publications: {
+                    description: "Publications & certifications",
+                    execute: function() {
+                        return `
+<span class="rainbow-text">Publications & Certifications:</span>
+------------------------------------
+
+<span class="command">Research Papers:</span>
+1. "CRISP: A Novel Framework for Data Analysis" (2023)
+   - Published in International Journal of Data Science
+   - DOI: 10.xxxx/xxxxxx
+
+2. "Optimizing Lip-Sync with Hybrid Models" (2022)
+   - Presented at AI Conference 2022
+
+<span class="command">Certifications:</span>
+- IBM AI Engineering Professional (2022)
+- Yale Financial Markets (Coursera, 2021)
+- Advanced Data Science with Python (Boston IT, 2021)
+- Google Cloud Fundamentals (2020)
+
+<span class="command">Online Courses:</span>
+- Deep Learning Specialization (deeplearning.ai)
+- Natural Language Processing (Stanford Online)
+- Algorithmic Trading (QuantInsti)
+                        `;
+                    }
+                },
+                contact: {
+                    description: "Contact information",
+                    execute: function() {
+                        return `
+<span class="rainbow-text">Contact Hriday:</span>
+-----------------
+
+<span class="command">Email:</span> <a href="mailto:hriday@example.com">hriday@example.com</a>
+<span class="command">GitHub:</span> <a href="https://github.com/hridayshah" target="_blank">github.com/hridayshah</a>
+<span class="command">LinkedIn:</span> <a href="https://linkedin.com/in/hridayshah" target="_blank">linkedin.com/in/hridayshah</a>
+<span class="command">Twitter:</span> <a href="https://twitter.com/hridayshah" target="_blank">@hridayshah</a>
+
+<span class="command">Availability:</span>
+- Open to research collaborations
+- Available for freelance projects
+- Interested in full-time opportunities
+
+<span class="command">Location:</span> Andhra Pradesh, India
+<span class="command">Timezone:</span> IST (UTC+5:30)
+                        `;
+                    }
+                },
+                ls: {
+                    description: "List all pages",
+                    execute: function() {
+                        return `about   projects   experience   skills   education   publications   contact`;
+                    }
+                },
+                clear: {
+                    description: "Clear terminal screen",
+                    execute: function() {
+                        terminalOutput.innerHTML = '';
+                        return '';
+                    }
+                },
+                "cat resume.pdf": {
+                    description: "Download resume",
+                    execute: function() {
+                        // Simulate download
+                        addOutput('<div class="output">Preparing resume download...</div>');
+                        setTimeout(() => {
+                            addOutput('<div class="output">Download complete! (simulated)</div>');
+                        }, 1000);
+                        return '';
+                    }
+                },
+                theme: {
+                    description: "Change terminal color theme",
+                    execute: function() {
+                        return showThemeOptions();
+                    }
+                },
+                exit: {
+                    description: "Close terminal",
+                    execute: function() {
+                        return `Nice try! You can't close this terminal. Type 'clear' to reset instead.`;
+                    }
+                }
+            };
+
+            // Command history with more features
+            let commandHistory = [];
+            let historyIndex = -1;
+            let themeSelectionMode = false;
+
+            commandInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    const fullCommand = commandInput.value.trim();
+                    commandInput.value = '';
+                    
+                    if (fullCommand) {
+                        // Add to history
+                        commandHistory.push(fullCommand);
+                        historyIndex = commandHistory.length;
+                        
+                        // Display command
+                        addOutput(`<div class="command-line"><div class="prompt">hriday@portfolio:~$</div> ${fullCommand}</div>`);
+                        
+                        // Handle theme selection mode
+                        if (themeSelectionMode) {
+                            if (changeTheme(fullCommand)) {
+                                addOutput(`<div class="output">Theme changed to <span class="command">${fullCommand}</span>.</div>`);
+                            } else {
+                                addOutput(`<div class="error">Theme not found. Type 'theme' to see available themes.</div>`);
+                            }
+                            themeSelectionMode = false;
+                        } 
+                        // Parse command and arguments
+                        else {
+                            const parts = fullCommand.split(' ');
+                            const command = parts[0];
+                            const args = parts.slice(1);
+                            
+                            // Execute command
+                            let output = '';
+                            
+                            // Handle theme command
+                            if (command === 'theme') {
+                                themeSelectionMode = true;
+                                output = showThemeOptions();
+                            }
+                            // Handle help for specific commands
+                            else if (command.endsWith('--help')) {
+                                const cmd = command.split(' ')[0];
+                                if (commands[cmd]) {
+                                    output = `<span class="command">${cmd}</span> - ${commands[cmd].description}`;
+                                } else {
+                                    output = `<span class="error">Command not found: ${cmd}. Type 'help' for available commands.</span>`;
+                                }
+                            }
+                            // Handle regular commands
+                            else if (commands[command]) {
+                                output = commands[command].execute();
+                            } else if (command.startsWith('cat ')) {
+                                output = commands['cat resume.pdf'].execute();
+                            } else {
+                                output = `<span class="error">Command not found: ${command}. Type 'help' for available commands.</span>`;
+                            }
+                            
+                            if (output) {
+                                addOutput(`<div class="output">${output}</div>`);
+                            }
+                        }
+                        
+                        // Scroll to bottom
+                        setTimeout(() => {
+                            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                        }, 10);
+                    }
+                } else if (e.key === 'ArrowUp') {
+                    // Navigate command history up
+                    if (commandHistory.length > 0 && historyIndex > 0) {
+                        historyIndex--;
+                        commandInput.value = commandHistory[historyIndex];
+                        e.preventDefault();
+                    }
+                } else if (e.key === 'ArrowDown') {
+                    // Navigate command history down
+                    if (commandHistory.length > 0 && historyIndex < commandHistory.length - 1) {
+                        historyIndex++;
+                        commandInput.value = commandHistory[historyIndex];
+                        e.preventDefault();
+                    } else if (historyIndex === commandHistory.length - 1) {
+                        historyIndex++;
+                        commandInput.value = '';
+                        e.preventDefault();
+                    }
+                } else if (e.key === 'Tab') {
+                    // Tab completion
+                    e.preventDefault();
+                    const input = commandInput.value;
+                    if (input) {
+                        const matches = Object.keys(commands).filter(cmd => 
+                            cmd.startsWith(input)
+                        );
+                        if (matches.length === 1) {
+                            commandInput.value = matches[0];
+                        } else if (matches.length > 1) {
+                            addOutput(`<div class="output">${matches.join('    ')}</div>`);
+                        }
+                    }
+                }
+            });
+
+            function addOutput(html) {
+                terminalOutput.insertAdjacentHTML('beforeend', html);
+            }
+
+            // Auto-focus input with animation
+            setTimeout(() => {
+                commandInput.focus();
+                commandInput.style.animation = 'pulse 2s infinite';
+            }, 1000);
+
+            // Easter egg commands
+            const easterEggs = {
+                'sudo rm -rf /': "I'm sorry, Hriday. I'm afraid I can't do that.",
+                'make me a sandwich': "What? Make it yourself.",
+                'hello world': "Hello, Hriday! 👋",
+                'open the pod bay doors': "I'm sorry, Hriday. I'm afraid I can't do that.",
+                'the answer to life the universe and everything': "42",
+                'whoami': "You are Hriday Shah, an amazing developer!",
+                'neofetch': `
+<span class="ascii-art">
+<span class="command">hriday@portfolio</span>
+<span class="command">----------------</span>
+OS: Genius OS 42.0
+Host: Awesome Developer Machine
+Kernel: 5.15.0-76-generic
+Uptime: 42 days, 6 hours, 9 minutes
+Shell: zsh 5.8
+Terminal: interactive-terminal-portfolio
+CPU: Intel i9-13900K (32) @ 5.800GHz
+GPU: NVIDIA RTX 4090
+Memory: 64GB DDR5
+                </span>
+                `
+            };
+
+            // Check for easter eggs
+            commandInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    const command = commandInput.value.trim();
+                    if (easterEggs[command.toLowerCase()]) {
+                        setTimeout(() => {
+                            addOutput(`<div class="output">${easterEggs[command.toLowerCase()]}</div>`);
+                            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                        }, 100);
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
