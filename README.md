@@ -3,8 +3,6 @@
 ### **✨ The Project**  
 A **fully interactive terminal-themed portfolio** website, designed to showcase my skills, projects, and experience—**built without writing a single line of code myself!**  
 
-🔗 **Live Demo:** [Your Website Link]  
-
 ---
 
 ## **🤖 How I Built This Without Coding Knowledge**  
@@ -27,10 +25,9 @@ Since I'm **not well-versed in web development**, I turned to **AI tools** (like
 
 ### **4️⃣ Key Features**  
 ✅ **Fully Interactive Terminal** (Type commands like `help`, `projects`, `resume`)  
-✅ **Themes Support** (Change colors with `theme dracula`, `theme light`)  
+✅ **Themes Support** (Change colors with `theme `)  
 ✅ **Mobile-Friendly** (Works on phones & tablets)  
-✅ **Matrix Loading Screen** (Cool retro effect)  
-✅ **Downloadable Resume** (`cat resume.pdf` to download)  
+✅ **Pokemon Loading Screen** (Cool retro effect)  
 
 ---
 
@@ -52,9 +49,8 @@ AI isn’t just for experts—it’s a **game-changer for beginners** too!
 ```
 .
 ├── index.html           # Main terminal interface  
-├── assets/  
-│   ├── resume.pdf       # Downloadable resume  
-│   └── (other assets)  
+├── trial-webs/  
+│   ├── all prior bs
 └── README.md            # This file!  
 ```
 
