@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Hriday Shah | Interactive Terminal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -119,19 +120,56 @@
             from { opacity: 0.5; }
             to { opacity: 1; }
         }
+        /* New addition */
+        @media (max-width: 768px) {
+    .terminal-container {
+        height: 85vh;
+        min-height: auto;
+        max-height: none;
+        padding: 10px;
+    }
+    
+    .terminal {
+        height: 100%;
+    }
+    
+    .command-line {
+        position: sticky;
+        bottom: 0;
+        background: var(--bg-color);
+        padding: 10px 0;
+        z-index: 100;
+    }
+    
+    #command-input {
+        font-size: 16px; /* Larger text for mobile */
+    }
+}
 
         .terminal-container {
-            width: 100%;
-            max-width: 900px;
-            height: 80vh;
-            max-height: 650px;
-            display: flex;
-            flex-direction: column;
-            transform: scale(0.95);
-            opacity: 0;
-            animation: terminalEntrance 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
+    width: 100%;
+    max-width: 900px;
+    height: 90vh; /* Changed from fixed height */
+    min-height: 500px; /* Minimum height */
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.95);
+    opacity: 0;
+    animation: terminalEntrance 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    padding-bottom: env(safe-area-inset-bottom); /* For iPhone notch */
+}
+/* Prevent zooming on input focus */
+@supports (-webkit-touch-callout: none) {
+    input, textarea {
+        font-size: 16px !important;
+    }
+}
 
+/* Better scroll behavior */
+.command-output-container {
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+/*  */
         @keyframes terminalEntrance {
             0% { transform: scale(0.95); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
@@ -679,6 +717,32 @@
         </div>
     </div>
     <script>
+        // new shit
+
+        // Add this to your initTerminal() function
+function handleMobileViewport() {
+    // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+    let vh = window.innerHeight * 0.01;
+    // Then we set the value in the --vh custom property to the root of the document
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+    
+    // Handle keyboard appearing on mobile
+    const commandInput = document.getElementById('command-input');
+    commandInput.addEventListener('focus', () => {
+        setTimeout(() => {
+            document.querySelector('.command-line').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'nearest' 
+            });
+        }, 300);
+    });
+}
+
+// Run on load and resize
+window.addEventListener('load', handleMobileViewport);
+window.addEventListener('resize', handleMobileViewport);
+
+// new shit ends 
         document.addEventListener('DOMContentLoaded', function() {
             const loadingScreen = document.getElementById('loading-screen');
             const terminalContainer = document.querySelector('.terminal-container');
