@@ -689,8 +689,9 @@
                 
                 <div class="header-social-icons">
                     <a href="https://github.com/Hriday-2010" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/hriday-shah-59460b290" target="_blank" rel="noopener" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.linkedin.com/in/hriday-shah03" target="_blank" rel="noopener" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
                     <a href="mailto:shah.hriday03@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="Hriday_Shah_Resume.pdf" target="_blank" rel="noopener" title="Resume (PDF)"><i class="fas fa-file-pdf"></i></a>
                 </div>
             </div>
             <div class="terminal-body" id="terminal-output">
@@ -883,128 +884,79 @@ window.addEventListener('resize', handleMobileViewport);
                 // ---------------------------------------------------------------
                 const SITE = {
                     github: "https://github.com/Hriday-2010",
-                    linkedin: "https://www.linkedin.com/in/hriday-shah-59460b290",
-                    email: "shah.hriday03@gmail.com"
+                    linkedin: "https://www.linkedin.com/in/hriday-shah03",
+                    linkedinLabel: "linkedin.com/in/hriday-shah03",
+                    email: "shah.hriday03@gmail.com",
+                    resume: "Hriday_Shah_Resume.pdf"
                 };
 
                 const sections = {
                     about: `
     <span class="rainbow-text">Hriday Shah</span>
     MSc Risk Management &amp; Financial Engineering student at Imperial College London,
-    with a computer science and data analytics background.
+    SAS AML developer, and CFA Level I candidate, with a computer science
+    (data analytics) background from VIT.
 
-    I started out building machine learning systems (audio models, lip-sync, gait analysis),
-    then moved into finance: I spent eight months in financial crime as a SAS AML trainee
-    working on transaction monitoring, and I'm now training in quantitative risk and
-    financial engineering in London.
+    I started out building machine learning systems (lip-sync models, biomedical
+    devices, federated learning), and moved into finance through anti-money-laundering
+    work and market microstructure research. These days I'm most interested in
+    quantitative risk, order-book data and anything where good data engineering
+    meets financial markets.
     -----------------------
     <span class="command">Currently working on:</span>
+    • MSc Risk Management &amp; Financial Engineering at Imperial
     • Indian ADR lead-lag strategy research (Imperial capstone)
-    • Order flow imbalance &amp; cross-impact study, following Cont et al.
     • A backtesting engine for the Bloomberg Trading Challenge
+    • CFA Level I
     • Data structures &amp; algorithms in Python for quant interviews
 
     <span class="command">Interests:</span>
-    - Quantitative risk &amp; market microstructure
-    - Systematic / quantitative trading research
+    - Quantitative risk &amp; financial engineering
+    - Market microstructure &amp; order flow
+    - Systematic trading research &amp; backtesting
+    - AML, financial crime &amp; compliance analytics
     - Machine learning for time series
-    - AML &amp; financial crime analytics
 
     <span class="command">Philosophy:</span>
     "Simplicity is the ultimate sophistication." - Leonardo da Vinci
     "First solve the problem, then write the code." - John Johnson
 
-    <span class="command">Hobbies:</span>
+    <span class="command">Outside work:</span>
+    🥋 Black belt in Karate (former state-level champion)
+    🏊 Swimming (former district-level champion) and cycling
     📚 Reading technical and philosophical books
     ☕ Exploring different coffee
-    🚴 Cycling, Swimming and outdoor activities
-`,
-                    projects: `
-    <span class="rainbow-text">Projects:</span>
-    ----------------
 
-    <span class="command">Indian ADR Lead-Lag Strategy</span> – Imperial capstone (in progress)
-    <span class="tabbed"></span>• Tests whether US-listed ADR moves lead the underlying NSE stocks, combined with earnings drift
-    <span class="tabbed"></span>• Full research pipeline: hypothesis, data pipeline, backtest and report
-    <span class="tabbed"></span>• Built only on free data sources with clearly documented provenance
-    <span class="tabbed"></span>• Technologies: Python, Pandas, NumPy
-
-    <span class="command">Order Flow Imbalance &amp; Cross-Impact</span> – Market microstructure study (in progress)
-    <span class="tabbed"></span>• Studies order flow imbalance, cross-impact and optimal order placement in limit order markets
-    <span class="tabbed"></span>• Based on Cont et al. (cross-impact of OFI; optimal order placement)
-    <span class="tabbed"></span>• Technologies: Python, Pandas, NumPy
-
-    <span class="command">Backtesting Engine</span> – Bloomberg Trading Challenge (in progress)
-    <span class="tabbed"></span>• Simple engine to test the strategies our team proposes
-    <span class="tabbed"></span>• Encodes the challenge rules: long-only equities, no derivatives, overnight holds
-    <span class="tabbed"></span>• Technologies: Python, Bloomberg Terminal data
-
-    <span class="command">Liquid Neural Networks</span> – Adaptive neural architectures
-    <span class="tabbed"></span>• Classifying Cetacean species using dynamic audio modeling
-    <span class="tabbed"></span>• Focus on optimizing LNNs for time-series and audio features
-    <span class="tabbed"></span>• Technologies: PyTorch, NumPy, Librosa
-
-    <span class="command">Stock Market Forecasting</span> – Hybrid models for financial prediction
-    <span class="tabbed"></span>• ARIMA, LSTM, Liquid Neural Nets, and hybrid pipelines
-    <span class="tabbed"></span>• Focused on short-term trend forecasting and anomaly detection
-    <span class="tabbed"></span>• Technologies: Python, R, Scikit-learn, Keras
-
-    <span class="command">Forage Projects</span> – Practical simulations from top firms
-    <span class="tabbed"></span>• British Airways: Customer sentiment analysis &amp; insights
-    <span class="tabbed"></span>• JPMorgan Chase: Task automation &amp; data-driven reporting
-    <span class="tabbed"></span>• Technologies: Python, Excel, Pandas, NLP
-
-    <span class="command">CRISP</span> – Comprehensive Route Information System for Passengers
-    <span class="tabbed"></span>• Real-time route optimization for public transport
-    <span class="tabbed"></span>• Published in NCAIT 2023 (JSS Academy of Technical Education)
-    <span class="tabbed"></span>• Technologies: Python, Pandas, Geopandas, Scikit-learn
-
-    <span class="command">WALK</span> – AI-powered mobility assistant for drop-foot patients
-    <span class="tabbed"></span>• Real-time gait analysis using ML and IMU sensor data
-    <span class="tabbed"></span>• Incubated under VIT-AP; showcased at Startup Mahakumbh
-    <span class="tabbed"></span>• Technologies: TensorFlow Lite, Arduino, Python
-
-    <span class="command">OnlyMeds</span> – Smart hospital management system
-    <span class="tabbed"></span>• Real-time city-wide health data integration
-    <span class="tabbed"></span>• ML-based bed queuing, OPD prediction &amp; emergency coordination
-    <span class="tabbed"></span>• Finalist at Smart India Hackathon 2022 (Team ID 84)
-    <span class="tabbed"></span>• Technologies: React, Node.js, Firebase, ML
-
-    <span class="command">SpaceX Capstone</span> – Analyzing and modeling launch success
-    <span class="tabbed"></span>• Predictive modeling of SpaceX launch outcomes
-    <span class="tabbed"></span>• Interactive analytics dashboard with real-time filters
-    <span class="tabbed"></span>• Technologies: Python, SQL, Plotly, Tableau
-
-    <span class="command">WAV2Lip-HQ</span> – Enhanced lip-syncing in audio-video synthesis
-    <span class="tabbed"></span>• Improved resolution, accuracy, and sync for speech video generation
-    <span class="tabbed"></span>• Intern project at Dubsync.ai
-    <span class="tabbed"></span>• Technologies: PyTorch, OpenCV, FFmpeg
-
-    <span class="command">Biometric Network Intrusion Detection</span> – Capstone project under Prof. Asish Kumar Dalai
-    <span class="tabbed"></span>• Decentralized security using device biometrics and Web3 smart contracts
-    <span class="tabbed"></span>• Detecting threats using immutable hardware/software signatures
-    <span class="tabbed"></span>• Technologies: Python, Solidity, PyTorch, Web3.py
-
-    <span class="command">View code on GitHub:</span> <a href="${SITE.github}" target="_blank" rel="noopener">github.com/Hriday-2010</a>
+    Type <span class="command">achievements</span> for awards and volunteering, or <span class="command">resume</span> for my CV.
 `,
                     experience: `
     <span class="rainbow-text">Professional Experience:</span>
     -------------------------
 
-    <span class="command">Nupeak IT Services</span> – SAS AML Trainee (Nov 2025 – Jul 2026)
-    <span class="tabbed"></span>• Trained on SAS anti-money-laundering (AML) solutions
-    <span class="tabbed"></span>• Worked on transaction monitoring for financial crime detection
+    <span class="command">Nupeak Pvt Ltd, Mumbai</span> – SAS AML Developer / Trainee (Nov 2025 – Present)
+    <span class="tabbed"></span>• Cut transaction monitoring processing time from ~25 hrs to 7–12 hrs by optimizing
+    <span class="tabbed"></span>  SAS AML workflows with Python and SQL, improving compliance SLA adherence
+    <span class="tabbed"></span>• Tuned AML detection scenarios and alert logic, reducing the false positive rate and
+    <span class="tabbed"></span>  improving alert precision across monitored customer segments
+    <span class="tabbed"></span>• Built automated SQL validation pipelines for high-volume transaction feeds,
+    <span class="tabbed"></span>  reducing data quality incidents
+    <span class="tabbed"></span>• Streamlined SAR filing workflow design in line with regulatory frameworks
+    <span class="tabbed"></span>• Tools: SAS AML, SAS Visual Investigator, Python, SQL
 
-    <span class="command">Awarathon</span> – AI Research Intern (2023)
-    <span class="tabbed"></span>• Built ML models for personalized learning assessment
-    <span class="tabbed"></span>• Deployed NLP algorithms for speech and text analysis
-    <span class="tabbed"></span>• Worked on LLM-based auto-evaluation modules
-    <span class="tabbed"></span>• Contributed to ongoing R&amp;D publications
+    <span class="command">W.A.L.K Project, VIT-AP Incubation Center</span> – Founder &amp; AI/ML Developer (May 2024 – 2025)
+    <span class="tabbed"></span>• Led development of an AI-driven biomedical device for drop-foot rehabilitation,
+    <span class="tabbed"></span>  improving measured patient gait outcomes
+    <span class="tabbed"></span>• Owned the ML/AI development, prototype design and project execution
+    <span class="tabbed"></span>• Presented at India's first Startup Mahakumbh (Mar 2024)
 
-    <span class="command">Dubsync.ai</span> – Machine Learning Intern (2022)
-    <span class="tabbed"></span>• Developed high-fidelity lip-sync models (WAV2Lip-HQ)
-    <span class="tabbed"></span>• Improved audio-video synchronization accuracy
-    <span class="tabbed"></span>• Reduced inference lag with model optimization
+    <span class="command">Awarathon, Mumbai</span> – Data Science &amp; ML Intern (Sep 2023 – Dec 2023)
+    <span class="tabbed"></span>• Built ML models to improve predictive accuracy on financial datasets
+    <span class="tabbed"></span>• Applied NLP / LLMs for sentiment-driven investment insight
+    <span class="tabbed"></span>• Optimized data pipelines for faster downstream decision-making
+
+    <span class="command">Dubsync.ai, Hyderabad</span> – R&amp;D Intern (Apr 2023 – Jul 2023)
+    <span class="tabbed"></span>• Engineered deep learning models for audio/video processing
+    <span class="tabbed"></span>• Improved lip-sync and video generation accuracy (WAV2Lip-HQ)
     <span class="tabbed"></span>• Tools: PyTorch, OpenCV, FFmpeg
 
     <span class="rainbow-text">Leadership &amp; Competitions:</span>
@@ -1014,127 +966,216 @@ window.addEventListener('resize', handleMobileViewport);
     <span class="tabbed"></span>• Competing in the global challenge with a university team
     <span class="tabbed"></span>• Building the team's backtesting engine for strategy testing
 
-    <span class="command">CSI @ VIT-AP</span> – Technical Lead (2021–2023)
-    <span class="tabbed"></span>• Co-led CSI's technical division and event planning
-    <span class="tabbed"></span>• Mentored 50+ students in ML, GitHub, and Python
-    <span class="tabbed"></span>• Initiated hands-on workshops, coding events &amp; open-source drives
+    <span class="command">Computer Society of India, VIT-AP</span> – Co-Leader, Technical Department (Aug 2021 – Jul 2022)
+    <span class="tabbed"></span>• Led development of a membership and project portal for a 500+ student community,
+    <span class="tabbed"></span>  automating scheduling, announcements and real-time updates
+    <span class="tabbed"></span>• Built Power BI dashboards on participation, feedback and resource allocation
+    <span class="tabbed"></span>  to improve event management
 
-    <span class="command">Hack-AP 2023</span> – 3rd Place Winner
-    <span class="tabbed"></span>• Designed WALK, an AI-assisted gait analysis app
-    <span class="tabbed"></span>• Integrated real-time data from sensors into mobile ML models
-    <span class="tabbed"></span>• Recognized for innovation and real-world impact
+    <span class="command">Full details:</span> <a href="${SITE.linkedin}" target="_blank" rel="noopener">${SITE.linkedinLabel}</a> · or type <span class="command">resume</span>
+`,
+                    projects: `
+    <span class="rainbow-text">Quant &amp; Finance Projects:</span>
+    ----------------
 
-    <span class="command">Startup Mahakumbh</span> – VIT-AP Startup Representative (2024)
-    <span class="tabbed"></span>• Founder and R&amp;D Lead for the WALK project
-    <span class="tabbed"></span>• Showcased WALK as a potential healthcare startup
-    <span class="tabbed"></span>• Pitched to incubators and received mentorship feedback
-    <span class="tabbed"></span>• Represented VIT-AP's innovation cell in a national forum
+    <span class="command">Indian ADR Lead-Lag Strategy</span> – Imperial capstone (2026, in progress)
+    <span class="tabbed"></span>• Tests whether US-listed ADR moves lead the underlying NSE stocks, combined with earnings drift
+    <span class="tabbed"></span>• Full research pipeline: hypothesis, data pipeline, backtest and report
+    <span class="tabbed"></span>• Built only on free data sources with clearly documented provenance
+    <span class="tabbed"></span>• Technologies: Python, Pandas, NumPy
 
-    <span class="command">View full details on LinkedIn:</span> <a href="${SITE.linkedin}" target="_blank" rel="noopener">linkedin.com/in/hriday-shah-59460b290</a>
+    <span class="command">Backtesting Engine</span> – Bloomberg Trading Challenge (2026, in progress)
+    <span class="tabbed"></span>• Engine to test the strategies our team proposes
+    <span class="tabbed"></span>• Encodes the challenge rules: long-only equities, no derivatives, overnight holds
+    <span class="tabbed"></span>• Technologies: Python, Bloomberg Terminal data
+
+    <span class="command">High-Frequency Implied Volatility Forecasting</span> – Self project (2025)
+    <span class="tabbed"></span>• Engineered 25+ microstructural order-book features to predict short-horizon implied
+    <span class="tabbed"></span>  volatility, outperforming baseline models
+    <span class="tabbed"></span>• Optimized a LightGBM pipeline for low-latency inference suitable for real-time signals
+    <span class="tabbed"></span>• Backtested volatility-based trading rules with cross-asset hedging to reduce simulated drawdown
+    <span class="tabbed"></span>• Technologies: Python, LightGBM, Pandas, NumPy
+
+    <span class="command">Optimal Order Allocation &amp; Order Flow Imbalance</span> – Self project (2024 – 2025)
+    <span class="tabbed"></span>• Formulated a convex optimization model for order allocation across exchanges,
+    <span class="tabbed"></span>  reducing simulated execution costs
+    <span class="tabbed"></span>• Applied Robbins–Monro stochastic approximation to improve execution success vs. static baselines
+    <span class="tabbed"></span>• Modeled order flow imbalance (OFI) via PCA to explain short-term price movements
+    <span class="tabbed"></span>• Based on Cont et al.; technologies: Python, NumPy, SciPy
+
+    <span class="command">Distributed Blockchain Consensus with Liquid Neural Networks</span> – Patent filed (2025)
+    <span class="tabbed"></span>• Consensus mechanism using liquid neural networks for adaptive, real-time
+    <span class="tabbed"></span>  fraud detection in permissioned financial networks
+
+    <span class="command">Federated Learning for Data Privacy in Distributed Systems</span> – VIT research, patent filed (2024)
+    <span class="tabbed"></span>• Federated learning framework that reduces centralized data dependency and
+    <span class="tabbed"></span>  improves cross-institutional data privacy
+    <span class="tabbed"></span>• Implemented and tested model aggregation techniques in Python
+    <span class="tabbed"></span>• Under the guidance of Dr. Misha Chandar
+
+    <span class="command">Stock Market Forecasting</span> – Hybrid models for financial prediction
+    <span class="tabbed"></span>• ARIMA, LSTM, Liquid Neural Nets, and hybrid pipelines
+    <span class="tabbed"></span>• Short-term trend forecasting and anomaly detection
+    <span class="tabbed"></span>• Technologies: Python, R, Scikit-learn, Keras
+
+    <span class="rainbow-text">Machine Learning &amp; Engineering Projects:</span>
+    ----------------
+
+    <span class="command">W.A.L.K</span> – AI-powered mobility device for drop-foot patients (2024 – 2025)
+    <span class="tabbed"></span>• Real-time gait analysis using ML and IMU sensor data
+    <span class="tabbed"></span>• Incubated at VIT-AP; showcased at Startup Mahakumbh
+    <span class="tabbed"></span>• Technologies: TensorFlow Lite, Arduino, Python
+
+    <span class="command">STAG</span> – AI + IoT home energy optimization (Aug 2023 – Mar 2024)
+    <span class="tabbed"></span>• Mobile app connected to IoT devices and home solar systems for real-time energy monitoring
+    <span class="tabbed"></span>• Predictive forecasting and smart optimization of household energy usage
+    <span class="tabbed"></span>• 3rd place at an Andhra Pradesh state-level competition; showcased at Startup Mahakumbh
+
+    <span class="command">CRISP</span> – Comprehensive Route Information System for Passengers (2022 – 2023)
+    <span class="tabbed"></span>• Bus tracking solution integrating ML, microcontrollers and GPS for real-time updates
+    <span class="tabbed"></span>• Streamlines daily commutes across public transit and ridesharing
+    <span class="tabbed"></span>• Published at NCAIT-2023 (JSS Academy of Technical Education)
+
+    <span class="command">Liquid Neural Networks for Cetacean Classification</span>
+    <span class="tabbed"></span>• Classifying whale and dolphin species using dynamic audio modeling
+    <span class="tabbed"></span>• Technologies: PyTorch, NumPy, Librosa
+
+    <span class="command">WAV2Lip-HQ</span> – Enhanced lip-syncing in audio-video synthesis (2023)
+    <span class="tabbed"></span>• Improved resolution, accuracy and sync for speech video generation
+    <span class="tabbed"></span>• R&amp;D internship project at Dubsync.ai
+
+    <span class="command">SpaceX Falcon 9 Landing Prediction</span> – IBM Data Science capstone
+    <span class="tabbed"></span>• Predicted first-stage landing success with logistic regression, decision trees and XGBoost
+    <span class="tabbed"></span>• Technologies: Python, SQL, Plotly
+
+    <span class="command">Biometric Network Intrusion Detection</span> – Capstone under Prof. Asish Kumar Dalai
+    <span class="tabbed"></span>• Decentralized security using device biometrics and Web3 smart contracts
+    <span class="tabbed"></span>• Technologies: Python, Solidity, PyTorch, Web3.py
+
+    <span class="command">OnlyMeds</span> – Smart hospital management system
+    <span class="tabbed"></span>• ML-based bed queuing, OPD prediction &amp; emergency coordination
+    <span class="tabbed"></span>• Finalist at Smart India Hackathon 2022
+
+    <span class="command">Forage Job Simulations</span>
+    <span class="tabbed"></span>• British Airways: customer sentiment analysis &amp; insights
+    <span class="tabbed"></span>• JPMorgan Chase: task automation &amp; data-driven reporting
+
+    <span class="command">View code on GitHub:</span> <a href="${SITE.github}" target="_blank" rel="noopener">github.com/Hriday-2010</a>
 `,
                     skills: `
     <span class="rainbow-text">Technical Skills:</span>
     -------------------
 
-    <span class="command">Programming Languages:</span>
-    Python (Expert), SQL, SAS, C++, JavaScript, Java, R (Intermediate)
+    <span class="command">Languages &amp; Databases:</span>
+    Python, SQL, SAS, R, Java, C++, MATLAB, JavaScript, MySQL, PostgreSQL, MongoDB
 
-    <span class="command">Quant, Risk &amp; Finance:</span>
-    Backtesting, Market Microstructure (order flow imbalance), Time-Series Forecasting,
-    AML / Transaction Monitoring, Bloomberg Terminal
+    <span class="command">AML &amp; Compliance:</span>
+    SAS AML, SAS Visual Investigator, Transaction Monitoring, SAR Filing, KYC, Case Management
 
-    <span class="command">Financial &amp; Algorithmic Tools:</span>
-    QuantLib, yFinance, TA-Lib, Backtrader, Alphalens, Zipline
+    <span class="command">Quant &amp; Finance:</span>
+    Market Microstructure (order flow imbalance), Volatility Forecasting, Execution Optimization,
+    Backtesting, Time Series (ARIMA/SARIMA), Anomaly Detection, Bloomberg Terminal
 
-    <span class="command">Machine Learning &amp; Deep Learning:</span>
-    PyTorch, TensorFlow, Scikit-learn, Keras, Liquid Neural Networks, XGBoost, OpenCV
+    <span class="command">Machine Learning:</span>
+    TensorFlow, PyTorch, Scikit-learn, LightGBM, XGBoost, Pandas, NumPy, NLP, LLMs,
+    Deep Learning (CNNs, RNNs, Liquid Neural Networks)
 
-    <span class="command">Data Science:</span>
-    Pandas, NumPy, StatsModels, Matplotlib, Seaborn, Plotly, ARIMA/SARIMA, Feature Engineering
+    <span class="command">Tools:</span>
+    Docker, Git, Flask, REST APIs, Agile, Power BI, Tableau, Linux, JupyterLab
 
-    <span class="command">DevOps &amp; Cloud Tools:</span>
-    Git, GitHub, Docker, AWS, Google Colab, Linux, JupyterLab
-
-    <span class="command">Other Skills:</span>
-    Algorithm Design, Data Structures, Optimization, LLM Integration, Technical Writing, Research Documentation
-
-    <span class="command">Languages:</span>
+    <span class="command">Spoken Languages:</span>
     English (Fluent), Hindi (Native), Gujarati (Native), Marathi (Fluent), German (Beginner)
 `,
                     education: `
     <span class="rainbow-text">Education:</span>
     ------------
 
-    <span class="command">Imperial College London</span> (Sep 2026 – Aug 2027, in progress)
+    <span class="command">Imperial College London</span> (Aug 2026 – Present)
     MSc Risk Management and Financial Engineering – Imperial College Business School
+    Modules include: Data Structures and Algorithms (Python), Accounting
 
-    <span class="command">Modules include:</span>
-    - Data Structures and Algorithms (Python) – capstone: Indian ADR lead-lag strategy
-    - Accounting
-
-    <span class="command">VIT-AP University</span> (2020–2024)
-    B.Tech in Computer Science and Engineering – Specialization in Data Analytics
-    GPA: 9.39/10.00 (Approx. 3.9/4.0)
+    <span class="command">Vellore Institute of Technology (VIT-AP)</span> (2021 – 2025)
+    B.Tech, Computer Science and Engineering (Data Analytics Specialization)
+    GPA: 9.4/10 | Top 6, Department Rank
 
     <span class="command">Relevant Coursework:</span>
-    - Mining Massive Datasets
-    - Applied Data Analytics
+    - Financial Mathematics
+    - Probability and Statistics
+    - Time Series Analysis
+    - Machine Learning &amp; Deep Learning
     - Design and Analysis of Algorithms
-    - Database Management Systems
-    - Financial Mathematics (Elective)
+    - Mining Massive Datasets
+    - Applications of Data Analytics
 
-    <span class="command">Academic Achievements:</span>
-    - Published 2 research papers
-    - Filed 2 patents on Federated Learning and Biomedical AI Systems
-    - Finalist at Hackathons including Smart India Hackathon &amp; Hack-AP
+    <span class="command">CFA Institute</span>
+    CFA Level I Candidate
+
+    <span class="command">Schooling:</span>
+    Vidyaniketan Junior College – Class XII (2021): 94.61%
+    St. Gregorios High School – Class X (2019): 95.83%, 9th rank in school
 `,
                     publications: `
-    <span class="rainbow-text">Publications &amp; Certifications:</span>
+    <span class="rainbow-text">Research &amp; Patents:</span>
     ------------------------------------
 
+    <span class="command">Patents Filed (2):</span>
+    1. Distributed Blockchain Consensus with Liquid Neural Networks (2025)
+       - Adaptive, real-time fraud detection in permissioned financial networks
+    2. Federated Learning for Data Privacy in Distributed Systems (2024)
+       - Filed through VIT, with a research paper under Dr. Misha Chandar
+
     <span class="command">Research Papers:</span>
-    1. "CRISP: A Novel Framework for Route Optimization and Passenger Data Analysis" (2023)
-       - Published at 9th National Conference on Advancements in Information Technology (NCAIT-2023), JSSATE
-       - Focused on scalable and intelligent public transport systems using data analytics and ML
-
-    2. "Classification of Cetacean Species Using Liquid Neural Networks" (2024)
-       - Research on dynamic neural network architectures for species identification in oceanic environments
+    1. "CRISP: Comprehensive Route Information System for Passengers" (2023)
+       - Published at the 9th National Conference on Advancements in Information Technology (NCAIT-2023), JSSATE
+    2. Faculty research on equity forecasting methodologies (co-author)
+       - Liquid neural networks and hybrid models for stock market time-series forecasting
+    3. "Classification of Cetacean Species Using Liquid Neural Networks" (2024)
        - Target journal: Ecological Informatics (submission in progress)
+    4. "Acoustic Detection of Marine Species Calls in Real-Time Ocean Soundscape Data
+       Using Deep Convolutional Neural Networks" (2024)
+       - Under review: Journal of Marine Science and Engineering
 
-    3. "Acoustic Detection of Marine Species Calls in Real-Time Ocean Soundscape Data Using Deep Convolutional Neural Networks" (2024)
-       - Focuses on real-time acoustic monitoring of marine biodiversity using CNNs
-       - Under review for publication in Journal of Marine Science and Engineering
-
-    4. "Liquid Neural Networks for Time-Series Forecasting in Stock Markets" (In progress)
-       - Co-authored with faculty
-       - Investigates continuous-time models for financial market prediction
-
-    <span class="command">Patents:</span>
-    - Federated Learning for Scalable AI Systems (2023)
-      - Patent filed under guidance of Dr. Misha Chandar
-    - WALK: AI-powered Gait Assistance Device for Drop Foot (2023)
-      - Biomedical-AI system filed through VIT-AP Incubation Center
-
-    <span class="command">Certifications:</span>
+    <span class="rainbow-text">Certifications &amp; Tests:</span>
+    ------------------------------------
+    - CFA Level I Candidate (CFA Institute)
+    - Finance &amp; Quantitative Modeling for Analysts Specialization (Wharton, Coursera, Jan 2025)
     - Trading Strategies in Emerging Markets Specialization (ISB, Coursera, Feb 2025)
-    - Finance &amp; Quantitative Modeling for Analysts Specialization (Coursera, Jan 2025)
-    - British Airways Data Science Job Simulation (Forage, Sep 2024)
-    - Machine Learning (Boston IT, Jul 2024)
-    - GRE – Score: 328 (ETS, Aug 2024 – Expires Aug 2029)
-      • Credential ID: 2966436
-    - English Proficiency – IELTS (Band 8) (Oct 2024 – Expires Oct 2027)
-      • Credential ID: 24IA508224SHAH090A
-    - Financial Markets (Yale University, Nov 2023)
+    - Financial Markets, with Honors (Yale University, Nov 2023)
     - IBM Data Science Professional Certificate (IBM, Nov 2022)
+    - Machine Learning (Boston IT, Jul 2024)
+    - British Airways Data Science Job Simulation (Forage, Sep 2024)
+    - GRE: 328 (ETS, Aug 2024 – valid to Aug 2029) • Credential ID: 2966436
+    - IELTS: Band 8 (Oct 2024 – valid to Oct 2027) • Credential ID: 24IA508224SHAH090A
+`,
+                    achievements: `
+    <span class="rainbow-text">Achievements:</span>
+    ------------------------------------
+    🏆 Top 6, Department Rank – CSE (Data Analytics), VIT, Class of 2025
+    📜 2 patents filed – federated learning framework; blockchain–LNN consensus for financial compliance
+    🥇 Hackathon winner – 1st place, inter-college AI/ML solution hackathon
+    🥉 3rd place – HACK-AP 2023, state-level All Andhra Pradesh hackathon
+    🥈 Runner-up – inter-college competitive coding contest
+    🚀 Represented VIT-AP at India's first Startup Mahakumbh (Mar 2024), presenting STAG and W.A.L.K
+       to Prime Minister Shri Narendra Modi
+    🏥 Finalist – Smart India Hackathon 2022 (OnlyMeds)
+    🥋 State-level Karate champion; black belt
+    🏊 District-level swimming champion
+
+    <span class="rainbow-text">Volunteering:</span>
+    ------------------------------------
+    • Pandit Virbhadra Arya School (Mahatma Gandhi Gram Seva Trust) – taught Maths and Science to
+      underprivileged students and organized educational workshops
+    • Community cleanliness initiative, Dehene Village, Maharashtra
 `,
                     contact: `
     <span class="rainbow-text">Contact Hriday:</span>
     -----------------
 
     <span class="command">Email:</span> <a href="mailto:${SITE.email}">${SITE.email}</a>
+    <span class="command">LinkedIn:</span> <a href="${SITE.linkedin}" target="_blank" rel="noopener">${SITE.linkedinLabel}</a>
     <span class="command">GitHub:</span> <a href="${SITE.github}" target="_blank" rel="noopener">github.com/Hriday-2010</a>
-    <span class="command">LinkedIn:</span> <a href="${SITE.linkedin}" target="_blank" rel="noopener">linkedin.com/in/hriday-shah-59460b290</a>
     <span class="command">Instagram:</span> <a href="https://www.instagram.com/shah.hriday20/" target="_blank" rel="noopener">@shah.hriday20</a>
+    <span class="command">Resume:</span> <a href="${SITE.resume}" target="_blank" rel="noopener">Hriday_Shah_Resume.pdf</a>
 
     <span class="command">Looking for:</span>
     - 2027 internships and graduate roles in London
@@ -1153,12 +1194,13 @@ window.addEventListener('resize', handleMobileViewport);
                 const fs = {
                     type: "dir",
                     children: {
-                        "about.txt":   { type: "file", section: "about" },
-                        "skills.txt":  { type: "file", section: "skills" },
-                        "contact.txt": { type: "file", section: "contact" },
-                        "resume.pdf":  { type: "file", special: "resume" },
-                        "projects":     { type: "dir", children: { "README.md": { type: "file", section: "projects" } } },
+                        "about.txt":        { type: "file", section: "about" },
+                        "skills.txt":       { type: "file", section: "skills" },
+                        "achievements.txt": { type: "file", section: "achievements" },
+                        "contact.txt":      { type: "file", section: "contact" },
+                        "resume.pdf":       { type: "file", special: "resume", size: 568808 },
                         "experience":   { type: "dir", children: { "README.md": { type: "file", section: "experience" } } },
+                        "projects":     { type: "dir", children: { "README.md": { type: "file", section: "projects" } } },
                         "education":    { type: "dir", children: { "README.md": { type: "file", section: "education" } } },
                         "publications": { type: "dir", children: { "README.md": { type: "file", section: "publications" } } }
                     }
@@ -1211,16 +1253,16 @@ window.addEventListener('resize', handleMobileViewport);
                     }
                     const rows = [`total ${names.length}`];
                     if (showHidden) {
-                        rows.push('drwxr-xr-x  hriday  staff  4096  Oct 10 2026  .');
-                        rows.push('drwxr-xr-x  hriday  staff  4096  Oct 10 2026  ..');
+                        rows.push('drwxr-xr-x  hriday  staff    4096  Oct 10 2026  .');
+                        rows.push('drwxr-xr-x  hriday  staff    4096  Oct 10 2026  ..');
                     }
                     for (const n of names) {
                         const child = node.children[n];
                         if (child.type === 'dir') {
-                            rows.push(`drwxr-xr-x  hriday  staff  4096  Oct 10 2026  <span class="command">${n}/</span>`);
+                            rows.push(`drwxr-xr-x  hriday  staff    4096  Oct 10 2026  <span class="command">${n}/</span>`);
                         } else {
-                            const size = child.section ? sections[child.section].length : 0;
-                            rows.push(`-rw-r--r--  hriday  staff  ${String(size).padStart(4, ' ')}  Oct 10 2026  ${n}`);
+                            const size = child.size || (child.section ? sections[child.section].length : 0);
+                            rows.push(`-rw-r--r--  hriday  staff  ${String(size).padStart(6, ' ')}  Oct 10 2026  ${n}`);
                         }
                     }
                     return rows.join('\n');
@@ -1249,9 +1291,14 @@ window.addEventListener('resize', handleMobileViewport);
                     if (!res) return `<span class="error">cat: ${esc(arg)}: No such file or directory</span>`;
                     if (res.node.type === 'dir') return `<span class="error">cat: ${esc(arg)}: Is a directory (try 'cd ${esc(arg)}' then 'ls')</span>`;
                     if (res.node.special === 'resume') {
-                        return `A downloadable resume isn't published here yet.\nFor my full background, see <a href="${SITE.linkedin}" target="_blank" rel="noopener">LinkedIn</a> or email <a href="mailto:${SITE.email}">${SITE.email}</a>.`;
+                        return openResume();
                     }
                     return sections[res.node.section];
+                }
+
+                function openResume() {
+                    window.open(SITE.resume, '_blank', 'noopener');
+                    return `Opening resume.pdf in a new tab... (if nothing happens, <a href="${SITE.resume}" target="_blank" rel="noopener">open it here</a>)`;
                 }
 
                 function openLink(url, label) {
@@ -1274,16 +1321,18 @@ window.addEventListener('resize', handleMobileViewport);
                     help: {
                         description: "Show available commands",
                         execute: () => `
-    <span class="rainbow-text">Portfolio commands:</span>
-    <span class="command">about</span>        - About Hriday
-    <span class="command">projects</span>     - Projects with details
-    <span class="command">experience</span>   - Work experience, leadership &amp; competitions
-    <span class="command">skills</span>       - Technical skills and languages
-    <span class="command">education</span>    - Academic background
-    <span class="command">publications</span> - Publications, patents &amp; certifications
-    <span class="command">contact</span>      - Contact information
+    <span class="rainbow-text">Portfolio:</span>
+    <span class="command">about</span>          - Who I am and what I'm working on
+    <span class="command">experience</span>     - Work experience, leadership &amp; competitions
+    <span class="command">projects</span>       - Quant, ML and engineering projects
+    <span class="command">skills</span>         - Technical skills and spoken languages
+    <span class="command">education</span>      - Imperial, VIT, CFA and schooling
+    <span class="command">publications</span>   - Patents, papers &amp; certifications
+    <span class="command">achievements</span>   - Awards, competitions &amp; volunteering
+    <span class="command">contact</span>        - How to reach me
+    <span class="command">resume</span>         - Open my resume (PDF)
 
-    <span class="rainbow-text">Shell commands:</span>
+    <span class="rainbow-text">Shell:</span>
     <span class="command">ls</span> [-l] [-a] [dir] - List files       <span class="command">ll</span>            - Long listing (ls -la)
     <span class="command">cd</span> &lt;dir&gt;          - Change directory    <span class="command">pwd</span>           - Print working directory
     <span class="command">cat</span> &lt;file&gt;        - Show a file         <span class="command">tree</span>          - Show the file tree
@@ -1292,13 +1341,16 @@ window.addEventListener('resize', handleMobileViewport);
     <span class="command">uname</span> [-a]        - System info         <span class="command">neofetch</span>      - System summary
     <span class="command">man</span> &lt;command&gt;     - Describe a command  <span class="command">clear</span>         - Clear the screen
 
-    <span class="rainbow-text">Shortcuts:</span>
-    <span class="command">github</span>, <span class="command">linkedin</span>, <span class="command">email</span> - Open my profiles
-    <span class="command">theme</span>        - Change terminal color theme
-    <span class="command">exit</span>         - Close terminal (just kidding)
+    <span class="rainbow-text">Shortcuts &amp; extras:</span>
+    <span class="command">github</span>         - Open my GitHub
+    <span class="command">linkedin</span>       - Open my LinkedIn
+    <span class="command">email</span>          - Email me
+    <span class="command">theme</span>          - Change colour theme
+    <span class="command">help</span>           - Show this list
+    <span class="command">exit</span>           - Close terminal (just kidding)
 
     Try <span class="command">ll</span>, then <span class="command">cd projects</span> and <span class="command">cat README.md</span>.
-    Type <span class="command">&lt;command&gt; --help</span> for info about a command. Tab completes, ↑/↓ browse history.
+    <span class="command">&lt;command&gt; --help</span> describes a command. Tab completes, ↑/↓ browse history.
 `
                     },
                     about:        { description: "About Hriday", execute: () => sections.about },
@@ -1307,7 +1359,9 @@ window.addEventListener('resize', handleMobileViewport);
                     skills:       { description: "Technical skills and languages", execute: () => sections.skills },
                     education:    { description: "Academic background", execute: () => sections.education },
                     publications: { description: "Publications, patents and certifications", execute: () => sections.publications },
+                    achievements: { description: "Awards, competitions and volunteering", execute: () => sections.achievements },
                     contact:      { description: "Contact information", execute: () => sections.contact },
+                    resume:       { description: "Open my resume (PDF)", execute: () => openResume() },
                     ls: {
                         description: "List directory contents. Flags: -l (long), -a (all). Example: ls -l projects",
                         execute: (args) => {

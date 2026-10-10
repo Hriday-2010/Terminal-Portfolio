@@ -26,12 +26,14 @@ tree              # see the whole layout
 | Command | What it shows |
 |---|---|
 | `about` | Who I am and what I'm working on |
-| `projects` | Quant research, ML and engineering projects |
 | `experience` | Work experience, leadership and competitions |
+| `projects` | Quant, ML and engineering projects |
 | `skills` | Technical skills and spoken languages |
-| `education` | Imperial College London and VIT-AP |
-| `publications` | Papers, patents and certifications |
+| `education` | Imperial, VIT, CFA and schooling |
+| `publications` | Patents, papers and certifications |
+| `achievements` | Awards, competitions and volunteering |
 | `contact` | Email, GitHub, LinkedIn and what I'm looking for |
+| `resume` | Opens my resume PDF (same as `cat resume.pdf`) |
 
 **Shell-style commands**
 
@@ -69,6 +71,7 @@ Everything runs in the visitor's browser against a small, read-only, in-memory f
 ```
 .
 ├── index.html                    # The whole site: markup, styles, terminal logic and content
+├── Hriday_Shah_Resume.pdf        # Resume opened by `resume` / `cat resume.pdf`
 ├── trial-webs/                   # Earlier design drafts, kept for reference
 ├── .github/workflows/static.yml  # GitHub Pages deployment
 └── README.md
@@ -85,7 +88,7 @@ python3 -m http.server 8000   # then visit http://localhost:8000
 
 ## Updating the content
 
-All portfolio text lives in the `sections` object inside the `<script>` in `index.html` (`about`, `projects`, `experience`, `skills`, `education`, `publications`, `contact`). Edit the text there and both the named command (e.g. `projects`) and the matching file (e.g. `cat projects/README.md`) update together.
+All portfolio text lives in the `sections` object inside the `<script>` in `index.html` (`about`, `experience`, `projects`, `skills`, `education`, `publications`, `achievements`, `contact`). To update the resume, replace `Hriday_Shah_Resume.pdf` with a file of the same name. Edit the text there and both the named command (e.g. `projects`) and the matching file (e.g. `cat projects/README.md`) update together.
 
 To add a command, add an entry to the `commands` object with a `description` and an `execute(args)` function that returns the HTML to print.
 
@@ -98,5 +101,5 @@ I built the first version with AI tools (DeepSeek, DeepSite AI and ChatGPT) at a
 ## Contact
 
 - Email: shah.hriday03@gmail.com
-- LinkedIn: [hriday-shah-59460b290](https://www.linkedin.com/in/hriday-shah-59460b290)
+- LinkedIn: [hriday-shah03](https://www.linkedin.com/in/hriday-shah03)
 - GitHub: [Hriday-2010](https://github.com/Hriday-2010)
