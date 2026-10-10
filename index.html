@@ -5,6 +5,7 @@
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Hriday Shah | Interactive Terminal</title>
+    <meta name="description" content="Hriday Shah – MSc Risk Management &amp; Financial Engineering at Imperial College London. Interactive terminal portfolio: projects, experience, skills and contact.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Add this new CSS */
@@ -687,10 +688,9 @@
                 <div class="terminal-title">Hriday Shah — Interactive Terminal</div>
                 
                 <div class="header-social-icons">
-                    <a href="https://github.com/Hriday-2010" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/hriday-shah-59460b290" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/Hriday-2010" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/hriday-shah-59460b290" target="_blank" rel="noopener" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
                     <a href="mailto:shah.hriday03@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
-                    <a href="#" title="Resume"><i class="fas fa-file-pdf"></i></a>
                 </div>
             </div>
             <div class="terminal-body" id="terminal-output">
@@ -700,7 +700,7 @@
                             <div class="login-line">Last login: <span id="current-date"></span> on ttys000</div>
                             <div class="welcome-container">
                                 <div class="welcome-title">Welcome to Hriday's Terminal</div>
-                                <div class="welcome-subtitle">AI Researcher | Data Scientist | Developer</div>
+                                <div class="welcome-subtitle">MSc Risk Management &amp; Financial Engineering @ Imperial | Quant &amp; Risk | Data Science</div>
                             </div>
                             <div class="help-line">Type <span class="command-highlight">help</span> to see available commands</div>
                         </div>
@@ -708,7 +708,7 @@
                 </div>
             </div>
             <div class="command-line">
-                <div class="prompt">hriday@portfolio:~$</div>
+                <div class="prompt" id="main-prompt">hriday@portfolio:~$</div>
                 <div class="input-line">
                     <input type="text" id="command-input" autofocus spellcheck="false" autocorrect="off" autocapitalize="off">
                     <div class="cursor"></div>
@@ -877,427 +877,619 @@ window.addEventListener('resize', handleMobileViewport);
                         return output;
                     }
 
-                //     <span class="command">cat resume.pdf</span> - Download my resume
+                // ---------------------------------------------------------------
+                // Section content (shared by the section commands and the
+                // virtual filesystem, so cat/cd and the named commands agree)
+                // ---------------------------------------------------------------
+                const SITE = {
+                    github: "https://github.com/Hriday-2010",
+                    linkedin: "https://www.linkedin.com/in/hriday-shah-59460b290",
+                    email: "shah.hriday03@gmail.com"
+                };
 
-                // Enhanced commands with more details and animations
-                const commands = {
-                    help: {
-                        description: "Show available commands",
-                        execute: function() {
-                            return `
-    <span class="rainbow-text">Available commands:</span>
-    <span class="command">about</span>        - About Hriday
-    <span class="command">projects</span>     - View projects with details
-    <span class="command">experience</span>   - Work experience and achievements
-    <span class="command">skills</span>       - Technical skills and proficiencies
-    <span class="command">education</span>    - Academic background
-    <span class="command">publications</span> - Publications & certifications
-    <span class="command">contact</span>      - Contact information
-    <span class="command">clear</span>        - Clear terminal screen
-    <span class="command">ls</span>           - List all available pages
-    <span class="command">theme</span>        - Change terminal color theme
-    <span class="command">exit</span>         - Close terminal (just kidding)
-    
-    
-    Type <span class="command">command --help</span> for more info about a specific command.
-                            `;
-                        }
-                    },
-                    about: {
-                        description: "About Hriday",
-                        execute: function() {
-                            return `
+                const sections = {
+                    about: `
     <span class="rainbow-text">Hriday Shah</span>
-    I'm Hriday — an engineer who blends algorithms with imagination. From building AI-driven solutions to decoding financial markets, I bring ideas to life through data.  
-    I'm driven by curiosity, grounded in simplicity, and fueled by coffee and code. Whether it's a startup, a research paper, or a good playlist — I'm always exploring what's next.  
-    
-    Let's build something that matters.
+    MSc Risk Management &amp; Financial Engineering student at Imperial College London,
+    with a computer science and data analytics background.
+
+    I started out building machine learning systems (audio models, lip-sync, gait analysis),
+    then moved into finance: I spent eight months in financial crime as a SAS AML trainee
+    working on transaction monitoring, and I'm now training in quantitative risk and
+    financial engineering in London.
     -----------------------
-    • B.Tech Computer Science and Engineering with Specialisation in Data Analytics, VIT-AP
-    • Passionate about AI, Data Science, and Finance
-    • Coffee enthusiast and book lover
-    • Always learning and exploring new technologies
-    
-    <span class="command">Technical Focus:</span>
-    - Machine Learning & Deep Learning
-    - Algorithmic Trading
-    - Natural Language Processing
-    - Computer Vision
-    - Data Analysis & Visualization
-    
+    <span class="command">Currently working on:</span>
+    • Indian ADR lead-lag strategy research (Imperial capstone)
+    • Order flow imbalance &amp; cross-impact study, following Cont et al.
+    • A backtesting engine for the Bloomberg Trading Challenge
+    • Data structures &amp; algorithms in Python for quant interviews
+
+    <span class="command">Interests:</span>
+    - Quantitative risk &amp; market microstructure
+    - Systematic / quantitative trading research
+    - Machine learning for time series
+    - AML &amp; financial crime analytics
+
     <span class="command">Philosophy:</span>
     "Simplicity is the ultimate sophistication." - Leonardo da Vinci
     "First solve the problem, then write the code." - John Johnson
-    
+
     <span class="command">Hobbies:</span>
     📚 Reading technical and philosophical books
     ☕ Exploring different coffee
     🚴 Cycling, Swimming and outdoor activities
-                            `;
-                        }
-                    },
-                    projects: {
-                        description: "View projects with details",
-                        execute: function() {
-                            return `
-    <span class="rainbow-text">Major Projects:</span>
+`,
+                    projects: `
+    <span class="rainbow-text">Projects:</span>
     ----------------
-    
-    <span class="command">Liquid Neural Networks</span> – Adaptive neural architectures  
-    <span class="tabbed"></span>• Classifying Cetacean species using dynamic audio modeling  
-    <span class="tabbed"></span>• Focus on optimizing LNNs for time-series and audio features  
-    <span class="tabbed"></span>• Technologies: PyTorch, NumPy, Librosa  
-    
-    <span class="command">Stock Market Forecasting</span> – Hybrid models for financial prediction  
-    <span class="tabbed"></span>• ARIMA, LSTM, Liquid Neural Nets, and hybrid pipelines  
-    <span class="tabbed"></span>• Focused on short-term trend forecasting and anomaly detection  
-    <span class="tabbed"></span>• Technologies: Python, R, Scikit-learn, Keras  
-    
-    <span class="command">Forage Projects</span> – Practical simulations from top firms  
-    <span class="tabbed"></span>• British Airways: Customer sentiment analysis & insights  
-    <span class="tabbed"></span>• JPMorgan Chase: Task automation & data-driven reporting  
-    <span class="tabbed"></span>• Technologies: Python, Excel, Pandas, NLP  
 
-    <span class="command">CRISP</span> – Comprehensive Route Information System for Passengers  
-    <span class="tabbed"></span>• Real-time route optimization for public transport  
-    <span class="tabbed"></span>• Published in NCAIT 2023 (JSS Academy of Technical Education)  
-    <span class="tabbed"></span>• Technologies: Python, Pandas, Geopandas, Scikit-learn  
-    
-    <span class="command">WALK</span> – AI-powered mobility assistant for drop-foot patients  
-    <span class="tabbed"></span>• Real-time gait analysis using ML and IMU sensor data  
-    <span class="tabbed"></span>• Incubated under VIT-AP; showcased at Startup Mahakumbh  
-    <span class="tabbed"></span>• Technologies: TensorFlow Lite, Arduino, Python  
-    
-    <span class="command">OnlyMeds</span> – Smart hospital management system  
-    <span class="tabbed"></span>• Real-time city-wide health data integration  
-    <span class="tabbed"></span>• ML-based bed queuing, OPD prediction & emergency coordination  
-    <span class="tabbed"></span>• Finalist at Smart India Hackathon 2022 (Team ID 84)  
-    <span class="tabbed"></span>• Technologies: React, Node.js, Firebase, ML  
-    
-    <span class="command">SpaceX Capstone</span> – Analyzing and modeling launch success  
-    <span class="tabbed"></span>• Predictive modeling of SpaceX launch outcomes  
-    <span class="tabbed"></span>• Interactive analytics dashboard with real-time filters  
-    <span class="tabbed"></span>• Technologies: Python, SQL, Plotly, Tableau  
-    
-    <span class="command">WAV2Lip-HQ</span> – Enhanced lip-syncing in audio-video synthesis  
-    <span class="tabbed"></span>• Improved resolution, accuracy, and sync for speech video generation  
-    <span class="tabbed"></span>• Intern project at Dubsync.ai  
-    <span class="tabbed"></span>• Technologies: PyTorch, OpenCV, FFmpeg  
-    
-    <span class="command">Biometric Network Intrusion Detection</span> – Capstone project under Prof. Asish Kumar Dalai  
-    <span class="tabbed"></span>• Decentralized security using device biometrics and Web3 smart contracts  
-    <span class="tabbed"></span>• Detecting threats using immutable hardware/software signatures  
-    <span class="tabbed"></span>• Technologies: Python, Solidity, PyTorch, Web3.py  
-    
-    
-    <span class="command">View code on GitHub:</span> <a href="https://github.com/Hriday-2010" target="_blank">github.com/Hriday-2010</a>
-                            `;
-                        }
-                    },
-                    experience: {
-                        description: "Work experience and achievements",
-                        execute: function() {
-                            return `
+    <span class="command">Indian ADR Lead-Lag Strategy</span> – Imperial capstone (in progress)
+    <span class="tabbed"></span>• Tests whether US-listed ADR moves lead the underlying NSE stocks, combined with earnings drift
+    <span class="tabbed"></span>• Full research pipeline: hypothesis, data pipeline, backtest and report
+    <span class="tabbed"></span>• Built only on free data sources with clearly documented provenance
+    <span class="tabbed"></span>• Technologies: Python, Pandas, NumPy
 
+    <span class="command">Order Flow Imbalance &amp; Cross-Impact</span> – Market microstructure study (in progress)
+    <span class="tabbed"></span>• Studies order flow imbalance, cross-impact and optimal order placement in limit order markets
+    <span class="tabbed"></span>• Based on Cont et al. (cross-impact of OFI; optimal order placement)
+    <span class="tabbed"></span>• Technologies: Python, Pandas, NumPy
 
-<span class="rainbow-text">Professional Experience:</span>  
--------------------------
+    <span class="command">Backtesting Engine</span> – Bloomberg Trading Challenge (in progress)
+    <span class="tabbed"></span>• Simple engine to test the strategies our team proposes
+    <span class="tabbed"></span>• Encodes the challenge rules: long-only equities, no derivatives, overnight holds
+    <span class="tabbed"></span>• Technologies: Python, Bloomberg Terminal data
 
-<span class="command">Awarathon</span> – AI Research Intern (2023)  
-<span class="tabbed"></span>• Built ML models for personalized learning assessment  
-<span class="tabbed"></span>• Deployed NLP algorithms for speech and text analysis  
-<span class="tabbed"></span>• Worked on LLM-based auto-evaluation modules  
-<span class="tabbed"></span>• Contributed to ongoing R&D publications  
+    <span class="command">Liquid Neural Networks</span> – Adaptive neural architectures
+    <span class="tabbed"></span>• Classifying Cetacean species using dynamic audio modeling
+    <span class="tabbed"></span>• Focus on optimizing LNNs for time-series and audio features
+    <span class="tabbed"></span>• Technologies: PyTorch, NumPy, Librosa
 
-<span class="command">Dubsync.ai</span> – Machine Learning Intern (2022)  
-<span class="tabbed"></span>• Developed high-fidelity lip-sync models (WAV2Lip-HQ)  
-<span class="tabbed"></span>• Improved audio-video synchronization accuracy  
-<span class="tabbed"></span>• Reduced inference lag with model optimization  
-<span class="tabbed"></span>• Tools: PyTorch, OpenCV, FFmpeg  
+    <span class="command">Stock Market Forecasting</span> – Hybrid models for financial prediction
+    <span class="tabbed"></span>• ARIMA, LSTM, Liquid Neural Nets, and hybrid pipelines
+    <span class="tabbed"></span>• Focused on short-term trend forecasting and anomaly detection
+    <span class="tabbed"></span>• Technologies: Python, R, Scikit-learn, Keras
 
-<span class="command">CSI @ VIT-AP</span> – Technical Lead (2021–2023)  
-<span class="tabbed"></span>• Co-led CSI’s technical division and event planning  
-<span class="tabbed"></span>• Mentored 50+ students in ML, GitHub, and Python  
-<span class="tabbed"></span>• Initiated hands-on workshops, coding events & open-source drives  
+    <span class="command">Forage Projects</span> – Practical simulations from top firms
+    <span class="tabbed"></span>• British Airways: Customer sentiment analysis &amp; insights
+    <span class="tabbed"></span>• JPMorgan Chase: Task automation &amp; data-driven reporting
+    <span class="tabbed"></span>• Technologies: Python, Excel, Pandas, NLP
 
-<span class="command">Hack-AP 2023</span> – 3rd Place Winner  
-<span class="tabbed"></span>• Designed *WALK*, an AI-assisted gait analysis app  
-<span class="tabbed"></span>• Integrated real-time data from sensors into mobile ML models  
-<span class="tabbed"></span>• Recognized for innovation and real-world impact  
+    <span class="command">CRISP</span> – Comprehensive Route Information System for Passengers
+    <span class="tabbed"></span>• Real-time route optimization for public transport
+    <span class="tabbed"></span>• Published in NCAIT 2023 (JSS Academy of Technical Education)
+    <span class="tabbed"></span>• Technologies: Python, Pandas, Geopandas, Scikit-learn
 
-<span class="command">Startup Mahakumbh</span> – VIT-AP Startup Representative (2024)  
-<span class="tabbed"></span>• Founder and R&D Lead for *WALK* project
-<span class="tabbed"></span>• Showcased *WALK* as a potential healthcare startup  
-<span class="tabbed"></span>• Pitched to incubators and received mentorship feedback  
-<span class="tabbed"></span>• Represented VIT-AP’s innovation cell in national forum  
+    <span class="command">WALK</span> – AI-powered mobility assistant for drop-foot patients
+    <span class="tabbed"></span>• Real-time gait analysis using ML and IMU sensor data
+    <span class="tabbed"></span>• Incubated under VIT-AP; showcased at Startup Mahakumbh
+    <span class="tabbed"></span>• Technologies: TensorFlow Lite, Arduino, Python
 
-    
-    <span class="command">View full details on LinkedIn:</span> <a href="https://www.linkedin.com/in/hriday-shah-59460b290" target="_blank">linkedin.com/in/hriday-shah</a>
-                            `;
-                        }
-                    },
-                    skills: {
-                        description: "Technical skills and proficiencies",
-                        execute: function() {
-                            return `
-<span class="rainbow-text">Technical Skills:</span>  
--------------------
+    <span class="command">OnlyMeds</span> – Smart hospital management system
+    <span class="tabbed"></span>• Real-time city-wide health data integration
+    <span class="tabbed"></span>• ML-based bed queuing, OPD prediction &amp; emergency coordination
+    <span class="tabbed"></span>• Finalist at Smart India Hackathon 2022 (Team ID 84)
+    <span class="tabbed"></span>• Technologies: React, Node.js, Firebase, ML
 
-<span class="command">Programming Languages:</span>  
-Python (Expert), SQL, C++, JavaScript, Java, R (Intermediate)
+    <span class="command">SpaceX Capstone</span> – Analyzing and modeling launch success
+    <span class="tabbed"></span>• Predictive modeling of SpaceX launch outcomes
+    <span class="tabbed"></span>• Interactive analytics dashboard with real-time filters
+    <span class="tabbed"></span>• Technologies: Python, SQL, Plotly, Tableau
 
-<span class="command">Machine Learning & Deep Learning:</span>  
-PyTorch, TensorFlow, Scikit-learn, Keras, Liquid Neural Networks, XGBoost, OpenCV
+    <span class="command">WAV2Lip-HQ</span> – Enhanced lip-syncing in audio-video synthesis
+    <span class="tabbed"></span>• Improved resolution, accuracy, and sync for speech video generation
+    <span class="tabbed"></span>• Intern project at Dubsync.ai
+    <span class="tabbed"></span>• Technologies: PyTorch, OpenCV, FFmpeg
 
-<span class="command">Data Science & Quantitative Analysis:</span>  
-Pandas, NumPy, StatsModels, Matplotlib, Seaborn, Plotly, ARIMA/SARIMA, Time-Series Forecasting, Feature Engineering
+    <span class="command">Biometric Network Intrusion Detection</span> – Capstone project under Prof. Asish Kumar Dalai
+    <span class="tabbed"></span>• Decentralized security using device biometrics and Web3 smart contracts
+    <span class="tabbed"></span>• Detecting threats using immutable hardware/software signatures
+    <span class="tabbed"></span>• Technologies: Python, Solidity, PyTorch, Web3.py
 
-<span class="command">Financial & Algorithmic Tools:</span>  
-QuantLib, yFinance, TA-Lib, Backtrader, Alphalens, Zipline
+    <span class="command">View code on GitHub:</span> <a href="${SITE.github}" target="_blank" rel="noopener">github.com/Hriday-2010</a>
+`,
+                    experience: `
+    <span class="rainbow-text">Professional Experience:</span>
+    -------------------------
 
-<span class="command">DevOps & Cloud Tools:</span>  
-Git, GitHub, Docker, AWS, Google Colab, Linux, JupyterLab
+    <span class="command">Nupeak IT Services</span> – SAS AML Trainee (Nov 2025 – Jul 2026)
+    <span class="tabbed"></span>• Trained on SAS anti-money-laundering (AML) solutions
+    <span class="tabbed"></span>• Worked on transaction monitoring for financial crime detection
 
-<span class="command">Other Skills:</span>  
-Algorithm Design, LLM Integration, Data Structures, Optimization, Technical Writing, Research Documentation, Presentation Design
+    <span class="command">Awarathon</span> – AI Research Intern (2023)
+    <span class="tabbed"></span>• Built ML models for personalized learning assessment
+    <span class="tabbed"></span>• Deployed NLP algorithms for speech and text analysis
+    <span class="tabbed"></span>• Worked on LLM-based auto-evaluation modules
+    <span class="tabbed"></span>• Contributed to ongoing R&amp;D publications
 
-<span class="command">Languages:</span>  
-English (Fluent), Hindi (Native), Gujarati (Native), German (Basic)
+    <span class="command">Dubsync.ai</span> – Machine Learning Intern (2022)
+    <span class="tabbed"></span>• Developed high-fidelity lip-sync models (WAV2Lip-HQ)
+    <span class="tabbed"></span>• Improved audio-video synchronization accuracy
+    <span class="tabbed"></span>• Reduced inference lag with model optimization
+    <span class="tabbed"></span>• Tools: PyTorch, OpenCV, FFmpeg
 
-                            `;
-                        }
-                    },
-                    education: {
-                        description: "Academic background",
-                        execute: function() {
-                            return `
+    <span class="rainbow-text">Leadership &amp; Competitions:</span>
+    -------------------------
+
+    <span class="command">Bloomberg Trading Challenge</span> – Team member (2026)
+    <span class="tabbed"></span>• Competing in the global challenge with a university team
+    <span class="tabbed"></span>• Building the team's backtesting engine for strategy testing
+
+    <span class="command">CSI @ VIT-AP</span> – Technical Lead (2021–2023)
+    <span class="tabbed"></span>• Co-led CSI's technical division and event planning
+    <span class="tabbed"></span>• Mentored 50+ students in ML, GitHub, and Python
+    <span class="tabbed"></span>• Initiated hands-on workshops, coding events &amp; open-source drives
+
+    <span class="command">Hack-AP 2023</span> – 3rd Place Winner
+    <span class="tabbed"></span>• Designed WALK, an AI-assisted gait analysis app
+    <span class="tabbed"></span>• Integrated real-time data from sensors into mobile ML models
+    <span class="tabbed"></span>• Recognized for innovation and real-world impact
+
+    <span class="command">Startup Mahakumbh</span> – VIT-AP Startup Representative (2024)
+    <span class="tabbed"></span>• Founder and R&amp;D Lead for the WALK project
+    <span class="tabbed"></span>• Showcased WALK as a potential healthcare startup
+    <span class="tabbed"></span>• Pitched to incubators and received mentorship feedback
+    <span class="tabbed"></span>• Represented VIT-AP's innovation cell in a national forum
+
+    <span class="command">View full details on LinkedIn:</span> <a href="${SITE.linkedin}" target="_blank" rel="noopener">linkedin.com/in/hriday-shah-59460b290</a>
+`,
+                    skills: `
+    <span class="rainbow-text">Technical Skills:</span>
+    -------------------
+
+    <span class="command">Programming Languages:</span>
+    Python (Expert), SQL, SAS, C++, JavaScript, Java, R (Intermediate)
+
+    <span class="command">Quant, Risk &amp; Finance:</span>
+    Backtesting, Market Microstructure (order flow imbalance), Time-Series Forecasting,
+    AML / Transaction Monitoring, Bloomberg Terminal
+
+    <span class="command">Financial &amp; Algorithmic Tools:</span>
+    QuantLib, yFinance, TA-Lib, Backtrader, Alphalens, Zipline
+
+    <span class="command">Machine Learning &amp; Deep Learning:</span>
+    PyTorch, TensorFlow, Scikit-learn, Keras, Liquid Neural Networks, XGBoost, OpenCV
+
+    <span class="command">Data Science:</span>
+    Pandas, NumPy, StatsModels, Matplotlib, Seaborn, Plotly, ARIMA/SARIMA, Feature Engineering
+
+    <span class="command">DevOps &amp; Cloud Tools:</span>
+    Git, GitHub, Docker, AWS, Google Colab, Linux, JupyterLab
+
+    <span class="command">Other Skills:</span>
+    Algorithm Design, Data Structures, Optimization, LLM Integration, Technical Writing, Research Documentation
+
+    <span class="command">Languages:</span>
+    English (Fluent), Hindi (Native), Gujarati (Native), Marathi (Fluent), German (Beginner)
+`,
+                    education: `
     <span class="rainbow-text">Education:</span>
     ------------
-    
-<span class="command">VIT-AP University</span> (2020–2024)  
-B.Tech in Computer Science and Engineering – Specialization in Data Science  
-GPA: 9.39/10.00 (Approx. 3.9/4.0)
 
-<span class="command">Relevant Coursework:</span>  
-- Massive Mining Dataset
-- Applied Data Analytics 
-- Design and Analysis of Algorithms
-- Database Management Systems  
-- Financial Mathematics (Elective)
+    <span class="command">Imperial College London</span> (Sep 2026 – Aug 2027, in progress)
+    MSc Risk Management and Financial Engineering – Imperial College Business School
 
-<span class="command">Academic Achievements:</span>   
-- Published 2 research papers  
-- Filed 2 patents on Federated Learning and Biomedical AI Systems  
-- Finalist at Hackathons including Smart India Hackathon & Hack-AP
+    <span class="command">Modules include:</span>
+    - Data Structures and Algorithms (Python) – capstone: Indian ADR lead-lag strategy
+    - Accounting
 
-                            `;
-                        }
-                    },
-                    publications: {
-                        description: "Publications & certifications",
-                        execute: function() {
-                            return `
-    <span class="rainbow-text">Publications & Certifications:</span>
+    <span class="command">VIT-AP University</span> (2020–2024)
+    B.Tech in Computer Science and Engineering – Specialization in Data Analytics
+    GPA: 9.39/10.00 (Approx. 3.9/4.0)
+
+    <span class="command">Relevant Coursework:</span>
+    - Mining Massive Datasets
+    - Applied Data Analytics
+    - Design and Analysis of Algorithms
+    - Database Management Systems
+    - Financial Mathematics (Elective)
+
+    <span class="command">Academic Achievements:</span>
+    - Published 2 research papers
+    - Filed 2 patents on Federated Learning and Biomedical AI Systems
+    - Finalist at Hackathons including Smart India Hackathon &amp; Hack-AP
+`,
+                    publications: `
+    <span class="rainbow-text">Publications &amp; Certifications:</span>
     ------------------------------------
-    
-<span class="command">Research Papers:</span>  
-1. "CRISP: A Novel Framework for Route Optimization and Passenger Data Analysis" (2023)  
-   - Published at 9th National Conference on Advancements in Information Technology (NCAIT-2023), JSSATE  
-   - Focused on scalable and intelligent public transport systems using data analytics and ML  
 
-2. "Classification of Cetacean Species Using Liquid Neural Networks" (2024)  
-   - Research on dynamic neural network architectures for species identification in oceanic environments  
-   - Target journal: Ecological Informatics (submission in progress)  
+    <span class="command">Research Papers:</span>
+    1. "CRISP: A Novel Framework for Route Optimization and Passenger Data Analysis" (2023)
+       - Published at 9th National Conference on Advancements in Information Technology (NCAIT-2023), JSSATE
+       - Focused on scalable and intelligent public transport systems using data analytics and ML
 
-3. "Acoustic Detection of Marine Species Calls in Real-Time Ocean Soundscape Data Using Deep Convolutional Neural Networks" (2024)  
-   - Focuses on real-time acoustic monitoring of marine biodiversity using CNNs  
-   - Under review for publication in Journal of Marine Science and Engineering  
+    2. "Classification of Cetacean Species Using Liquid Neural Networks" (2024)
+       - Research on dynamic neural network architectures for species identification in oceanic environments
+       - Target journal: Ecological Informatics (submission in progress)
 
-5. "Liquid Neural Networks for Time-Series Forecasting in Stock Markets" (In progress)  
-   - Co-authored with faculty, targeting publication mid-2025  
-   - Investigates continuous-time models for financial market prediction
- 
+    3. "Acoustic Detection of Marine Species Calls in Real-Time Ocean Soundscape Data Using Deep Convolutional Neural Networks" (2024)
+       - Focuses on real-time acoustic monitoring of marine biodiversity using CNNs
+       - Under review for publication in Journal of Marine Science and Engineering
 
-<span class="command">Patents:</span>  
-- **Federated Learning for Scalable AI Systems** (2023)  
-  - Patent filed under guidance of Dr. Misha Chandar  
-- **WALK: AI-powered Gait Assistance Device for Drop Foot** (2023)  
-  - Biomedical-AI system filed through VIT-AP Incubation Center  
+    4. "Liquid Neural Networks for Time-Series Forecasting in Stock Markets" (In progress)
+       - Co-authored with faculty
+       - Investigates continuous-time models for financial market prediction
 
-<span class="command">Certifications:</span>  
-- Trading Strategies in Emerging Markets Specialization (ISB, Coursera, Feb 2025)  
-- Finance & Quantitative Modeling for Analysts Specialization (Coursera, Jan 2025)  
-- British Airways Data Science Job Simulation (Forage, Sep 2024)  
-- Machine Learning (Boston IT, Jul 2024)  
-- GRE – Score: 328 (ETS, Aug 2024 – Expires Aug 2029)  
-  • Credential ID: 2966436  
-- English Proficiency – IELTS (Band 8) (Oct 2024 – Expires Oct 2027)  
-  • Credential ID: 24IA508224SHAH090A  
-- Financial Markets (Yale University, Nov 2023)  
-- IBM Data Science Professional Certificate (IBM, Nov 2022)
-                            `;
-                        }
-                    },
-                    contact: {
-                        description: "Contact information",
-                        execute: function() {
-                            return `
+    <span class="command">Patents:</span>
+    - Federated Learning for Scalable AI Systems (2023)
+      - Patent filed under guidance of Dr. Misha Chandar
+    - WALK: AI-powered Gait Assistance Device for Drop Foot (2023)
+      - Biomedical-AI system filed through VIT-AP Incubation Center
+
+    <span class="command">Certifications:</span>
+    - Trading Strategies in Emerging Markets Specialization (ISB, Coursera, Feb 2025)
+    - Finance &amp; Quantitative Modeling for Analysts Specialization (Coursera, Jan 2025)
+    - British Airways Data Science Job Simulation (Forage, Sep 2024)
+    - Machine Learning (Boston IT, Jul 2024)
+    - GRE – Score: 328 (ETS, Aug 2024 – Expires Aug 2029)
+      • Credential ID: 2966436
+    - English Proficiency – IELTS (Band 8) (Oct 2024 – Expires Oct 2027)
+      • Credential ID: 24IA508224SHAH090A
+    - Financial Markets (Yale University, Nov 2023)
+    - IBM Data Science Professional Certificate (IBM, Nov 2022)
+`,
+                    contact: `
     <span class="rainbow-text">Contact Hriday:</span>
     -----------------
-    
-    <span class="command">Email:</span> <a href="mailto:shah.hriday03@gmail.com">shah.hriday03@gmail.com</a>
-    <span class="command">GitHub:</span> <a href="https://github.com/Hriday-2010" target="_blank">github.com/Hriday-2010</a>
-    <span class="command">LinkedIn:</span> <a href="https://www.linkedin.com/in/hriday-shah-59460b290" target="_blank">linkedin.com/in/hridayshah</a>
-    <span class="command">Instagram:</span> <a href="https://www.instagram.com/shah.hriday20/" target="_blank">@shah.hriday20</a>
-    
-    <span class="command">Availability:</span>
-    - Open to research collaborations
-    - Available for freelance projects
-    - Interested in full-time opportunities
-    
-    <span class="command">Location:</span> Mumbai, India
-    <span class="command">Timezone:</span> IST (UTC+5:30)
-                            `;
+
+    <span class="command">Email:</span> <a href="mailto:${SITE.email}">${SITE.email}</a>
+    <span class="command">GitHub:</span> <a href="${SITE.github}" target="_blank" rel="noopener">github.com/Hriday-2010</a>
+    <span class="command">LinkedIn:</span> <a href="${SITE.linkedin}" target="_blank" rel="noopener">linkedin.com/in/hriday-shah-59460b290</a>
+    <span class="command">Instagram:</span> <a href="https://www.instagram.com/shah.hriday20/" target="_blank" rel="noopener">@shah.hriday20</a>
+
+    <span class="command">Looking for:</span>
+    - 2027 internships and graduate roles in London
+    - Quant risk, quant research / trading, risk &amp; credit analysis, AML
+    - Research collaborations
+
+    <span class="command">Location:</span> London, UK
+    <span class="command">Timezone:</span> UK time (GMT / BST)
+`
+                };
+
+                // ---------------------------------------------------------------
+                // Virtual filesystem. Purely in-memory and read-only: nothing here
+                // touches the visitor's machine, and there is no way to modify it.
+                // ---------------------------------------------------------------
+                const fs = {
+                    type: "dir",
+                    children: {
+                        "about.txt":   { type: "file", section: "about" },
+                        "skills.txt":  { type: "file", section: "skills" },
+                        "contact.txt": { type: "file", section: "contact" },
+                        "resume.pdf":  { type: "file", special: "resume" },
+                        "projects":     { type: "dir", children: { "README.md": { type: "file", section: "projects" } } },
+                        "experience":   { type: "dir", children: { "README.md": { type: "file", section: "experience" } } },
+                        "education":    { type: "dir", children: { "README.md": { type: "file", section: "education" } } },
+                        "publications": { type: "dir", children: { "README.md": { type: "file", section: "publications" } } }
+                    }
+                };
+                let cwd = []; // path segments below ~
+
+                function esc(str) {
+                    return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+                }
+
+                function pathString(segments) {
+                    return segments.length ? '~/' + segments.join('/') : '~';
+                }
+
+                function promptText() {
+                    return `hriday@portfolio:${pathString(cwd)}$`;
+                }
+
+                function updatePrompt() {
+                    document.getElementById('main-prompt').textContent = promptText();
+                }
+
+                // Resolve a path like "projects", "../about.txt", "~/education/README.md"
+                function resolvePath(input) {
+                    let segs;
+                    if (input === undefined || input === '' || input === '.') input = '.';
+                    if (input === '~' || input === '/') return { node: fs, segs: [] };
+                    if (input.startsWith('~/')) { segs = []; input = input.slice(2); }
+                    else if (input.startsWith('/')) { segs = []; input = input.slice(1); }
+                    else { segs = cwd.slice(); }
+                    for (const part of input.split('/')) {
+                        if (part === '' || part === '.') continue;
+                        if (part === '..') { segs.pop(); continue; }
+                        segs.push(part);
+                    }
+                    let node = fs;
+                    for (const s of segs) {
+                        if (node.type !== 'dir' || !node.children[s]) return null;
+                        node = node.children[s];
+                    }
+                    return { node, segs };
+                }
+
+                function listDir(node, long, showHidden) {
+                    const names = Object.keys(node.children);
+                    if (!long) {
+                        const shown = names.map(n => node.children[n].type === 'dir'
+                            ? `<span class="command">${n}/</span>` : n);
+                        return (showHidden ? '.  ..  ' : '') + shown.join('   ');
+                    }
+                    const rows = [`total ${names.length}`];
+                    if (showHidden) {
+                        rows.push('drwxr-xr-x  hriday  staff  4096  Oct 10 2026  .');
+                        rows.push('drwxr-xr-x  hriday  staff  4096  Oct 10 2026  ..');
+                    }
+                    for (const n of names) {
+                        const child = node.children[n];
+                        if (child.type === 'dir') {
+                            rows.push(`drwxr-xr-x  hriday  staff  4096  Oct 10 2026  <span class="command">${n}/</span>`);
+                        } else {
+                            const size = child.section ? sections[child.section].length : 0;
+                            rows.push(`-rw-r--r--  hriday  staff  ${String(size).padStart(4, ' ')}  Oct 10 2026  ${n}`);
                         }
+                    }
+                    return rows.join('\n');
+                }
+
+                function treeView() {
+                    const lines = ['~'];
+                    const entries = Object.keys(fs.children);
+                    entries.forEach((name, i) => {
+                        const last = i === entries.length - 1;
+                        const node = fs.children[name];
+                        lines.push(`${last ? '└──' : '├──'} ${node.type === 'dir' ? `<span class="command">${name}/</span>` : name}`);
+                        if (node.type === 'dir') {
+                            const kids = Object.keys(node.children);
+                            kids.forEach((k, j) => {
+                                lines.push(`${last ? '    ' : '│   '}${j === kids.length - 1 ? '└──' : '├──'} ${k}`);
+                            });
+                        }
+                    });
+                    return lines.join('\n');
+                }
+
+                function catFile(arg) {
+                    if (!arg) return `<span class="error">cat: missing file operand. Try 'ls' to see files.</span>`;
+                    const res = resolvePath(arg);
+                    if (!res) return `<span class="error">cat: ${esc(arg)}: No such file or directory</span>`;
+                    if (res.node.type === 'dir') return `<span class="error">cat: ${esc(arg)}: Is a directory (try 'cd ${esc(arg)}' then 'ls')</span>`;
+                    if (res.node.special === 'resume') {
+                        return `A downloadable resume isn't published here yet.\nFor my full background, see <a href="${SITE.linkedin}" target="_blank" rel="noopener">LinkedIn</a> or email <a href="mailto:${SITE.email}">${SITE.email}</a>.`;
+                    }
+                    return sections[res.node.section];
+                }
+
+                function openLink(url, label) {
+                    window.open(url, '_blank', 'noopener');
+                    return `Opening ${label}... (if nothing happens, <a href="${url}" target="_blank" rel="noopener">click here</a>)`;
+                }
+
+                // Commands that look destructive or need privileges are refused.
+                // This is all client-side, so nothing could actually be harmed,
+                // but the terminal makes that explicit.
+                const blocked = ['rm', 'rmdir', 'sudo', 'su', 'chmod', 'chown', 'mv', 'cp', 'dd', 'mkfs',
+                                 'kill', 'killall', 'shutdown', 'reboot', 'curl', 'wget', 'ssh', 'scp',
+                                 'nano', 'vim', 'vi', 'touch', 'mkdir', 'apt', 'apt-get', 'brew', 'pip', 'npm', 'eval', 'exec'];
+
+                const commandHistory = [];
+                let historyIndex = -1;
+                let themeSelectionMode = false;
+
+                const commands = {
+                    help: {
+                        description: "Show available commands",
+                        execute: () => `
+    <span class="rainbow-text">Portfolio commands:</span>
+    <span class="command">about</span>        - About Hriday
+    <span class="command">projects</span>     - Projects with details
+    <span class="command">experience</span>   - Work experience, leadership &amp; competitions
+    <span class="command">skills</span>       - Technical skills and languages
+    <span class="command">education</span>    - Academic background
+    <span class="command">publications</span> - Publications, patents &amp; certifications
+    <span class="command">contact</span>      - Contact information
+
+    <span class="rainbow-text">Shell commands:</span>
+    <span class="command">ls</span> [-l] [-a] [dir] - List files       <span class="command">ll</span>            - Long listing (ls -la)
+    <span class="command">cd</span> &lt;dir&gt;          - Change directory    <span class="command">pwd</span>           - Print working directory
+    <span class="command">cat</span> &lt;file&gt;        - Show a file         <span class="command">tree</span>          - Show the file tree
+    <span class="command">echo</span> &lt;text&gt;       - Print text          <span class="command">whoami</span>        - Who are you?
+    <span class="command">date</span>              - Current date/time   <span class="command">history</span>       - Command history
+    <span class="command">uname</span> [-a]        - System info         <span class="command">neofetch</span>      - System summary
+    <span class="command">man</span> &lt;command&gt;     - Describe a command  <span class="command">clear</span>         - Clear the screen
+
+    <span class="rainbow-text">Shortcuts:</span>
+    <span class="command">github</span>, <span class="command">linkedin</span>, <span class="command">email</span> - Open my profiles
+    <span class="command">theme</span>        - Change terminal color theme
+    <span class="command">exit</span>         - Close terminal (just kidding)
+
+    Try <span class="command">ll</span>, then <span class="command">cd projects</span> and <span class="command">cat README.md</span>.
+    Type <span class="command">&lt;command&gt; --help</span> for info about a command. Tab completes, ↑/↓ browse history.
+`
                     },
+                    about:        { description: "About Hriday", execute: () => sections.about },
+                    projects:     { description: "View projects with details", execute: () => sections.projects },
+                    experience:   { description: "Work experience, leadership and competitions", execute: () => sections.experience },
+                    skills:       { description: "Technical skills and languages", execute: () => sections.skills },
+                    education:    { description: "Academic background", execute: () => sections.education },
+                    publications: { description: "Publications, patents and certifications", execute: () => sections.publications },
+                    contact:      { description: "Contact information", execute: () => sections.contact },
                     ls: {
-                        description: "List all pages",
-                        execute: function() {
-                            return `about   projects   experience   skills   education   publications   contact`;
+                        description: "List directory contents. Flags: -l (long), -a (all). Example: ls -l projects",
+                        execute: (args) => {
+                            const flags = args.filter(a => a.startsWith('-')).join('');
+                            const target = args.find(a => !a.startsWith('-'));
+                            const res = resolvePath(target);
+                            if (!res) return `<span class="error">ls: cannot access '${esc(target)}': No such file or directory</span>`;
+                            if (res.node.type === 'file') return esc(target);
+                            return listDir(res.node, flags.includes('l'), flags.includes('a'));
                         }
                     },
+                    ll: {
+                        description: "Long listing, same as ls -la",
+                        execute: (args) => commands.ls.execute(['-la', ...args])
+                    },
+                    cd: {
+                        description: "Change directory. Examples: cd projects, cd .., cd ~",
+                        execute: (args) => {
+                            const target = args[0] || '~';
+                            const res = resolvePath(target);
+                            if (!res) return `<span class="error">cd: ${esc(target)}: No such file or directory</span>`;
+                            if (res.node.type !== 'dir') return `<span class="error">cd: ${esc(target)}: Not a directory (try 'cat ${esc(target)}')</span>`;
+                            cwd = res.segs;
+                            updatePrompt();
+                            return '';
+                        }
+                    },
+                    pwd: {
+                        description: "Print working directory",
+                        execute: () => '/home/hriday' + (cwd.length ? '/' + cwd.join('/') : '')
+                    },
+                    cat: {
+                        description: "Show a file's contents. Example: cat about.txt",
+                        execute: (args) => args.length ? args.map(catFile).join('\n') : catFile('')
+                    },
+                    tree: {
+                        description: "Show the portfolio file tree",
+                        execute: () => treeView()
+                    },
+                    echo: {
+                        description: "Print text back",
+                        execute: (args) => esc(args.join(' '))
+                    },
+                    whoami: {
+                        description: "Who are you?",
+                        execute: () => "guest – a visitor on Hriday's portfolio. Hriday is at 'about'."
+                    },
+                    date: {
+                        description: "Show the current date and time",
+                        execute: () => new Date().toString()
+                    },
+                    history: {
+                        description: "Show command history",
+                        execute: () => commandHistory.map((c, i) => `${String(i + 1).padStart(4, ' ')}  ${esc(c)}`).join('\n')
+                    },
+                    uname: {
+                        description: "System information. -a for everything",
+                        execute: (args) => args.includes('-a')
+                            ? 'PortfolioOS 2.0 portfolio browser-js #1 SMP London x86_64 Web/HTML'
+                            : 'PortfolioOS'
+                    },
+                    neofetch: {
+                        description: "System summary",
+                        execute: () => `
+    <span class="command">guest@hriday-portfolio</span>
+    <span class="command">----------------------</span>
+    <span class="command">OS:</span> PortfolioOS 2.0 (browser edition)
+    <span class="command">Host:</span> GitHub Pages
+    <span class="command">Owner:</span> Hriday Shah
+    <span class="command">Location:</span> London, UK
+    <span class="command">Studying:</span> MSc Risk Management &amp; Financial Engineering, Imperial
+    <span class="command">Shell:</span> hsh 1.0 (hriday shell)
+    <span class="command">Languages:</span> Python, SQL, SAS, C++, R
+    <span class="command">Theme:</span> ${themeMode}
+`
+                    },
+                    man: {
+                        description: "Describe a command. Example: man cd",
+                        execute: (args) => {
+                            const name = args[0];
+                            if (!name) return `What manual page do you want? Try 'man cd'.`;
+                            if (commands[name]) return `<span class="command">${name}</span> - ${commands[name].description}`;
+                            return `<span class="error">No manual entry for ${esc(name)}</span>`;
+                        }
+                    },
+                    github:   { description: "Open my GitHub", execute: () => openLink(SITE.github, 'GitHub') },
+                    linkedin: { description: "Open my LinkedIn", execute: () => openLink(SITE.linkedin, 'LinkedIn') },
+                    email:    { description: "Email me", execute: () => openLink(`mailto:${SITE.email}`, 'your mail app') },
                     clear: {
                         description: "Clear terminal screen",
-                        execute: function() {
-                            outputContainer.innerHTML = '<div class="output"></div>';
-                            return '';
-                        }
-                    },
-                    "cat resume.pdf": {
-                        description: "Download resume",
-                        execute: function() {
-                            // Simulate download
-                            addOutput('<div class="output">Preparing resume download...</div>');
-                            setTimeout(() => {
-                                addOutput('<div class="output">Download complete! (simulated)</div>');
-                            }, 1000);
-                            return '';
-                        }
+                        execute: () => { outputContainer.innerHTML = '<div class="output"></div>'; return ''; }
                     },
                     theme: {
                         description: "Change terminal color theme",
-                        execute: function() {
-                            return showThemeOptions();
-                        }
+                        execute: () => { themeSelectionMode = true; return showThemeOptions(); }
                     },
                     exit: {
                         description: "Close terminal",
-                        execute: function() {
-                            return `Nice try! You can't close this terminal. Type 'clear' to reset instead.`;
-                        }
+                        execute: () => `Nice try! You can't close this terminal. Type 'clear' to reset instead.`
                     }
-                    
                 };
-    
-                // Command history with more features
-                let commandHistory = [];
-                let historyIndex = -1;
-                let themeSelectionMode = false;
-    
-                // Modified addOutput function - THIS IS THE KEY CHANGE
+
+                // Easter eggs (matched on the whole, lower-cased input)
+                const easterEggs = {
+                    'make me a sandwich': "What? Make it yourself.",
+                    'sudo make me a sandwich': "Okay. 🥪",
+                    'hello world': "Hello, visitor! 👋",
+                    'open the pod bay doors': "I'm sorry, Dave. I'm afraid I can't do that.",
+                    'the answer to life the universe and everything': "42",
+                    'coffee': "☕ Brewing... Hriday runs on this."
+                };
+
                 function addOutput(html) {
                     const outputDiv = document.createElement('div');
                     outputDiv.className = 'output';
                     outputDiv.innerHTML = html;
-                    
                     outputContainer.appendChild(outputDiv);
-                    
-                    // Scroll to show the beginning of the new output
-                    // We subtract a small amount (20px) to ensure some context above is visible
-                    scrollContainer.scrollTop = outputDiv.offsetTop - scrollContainer.offsetTop -20 ;
-                    
-                    // Store the scroll position before adding more content
+                    scrollContainer.scrollTop = outputDiv.offsetTop - scrollContainer.offsetTop - 20;
                     const prevScrollHeight = scrollContainer.scrollHeight;
-                    
-                    // After a small delay, check if we need to maintain position
                     setTimeout(() => {
-                        // Only adjust scroll if new content was added that changed the height
                         if (scrollContainer.scrollHeight > prevScrollHeight) {
-                            // Maintain the same viewport position relative to the top
-                            scrollContainer.scrollTop = outputDiv.offsetTop - scrollContainer.offsetTop -20;
+                            scrollContainer.scrollTop = outputDiv.offsetTop - scrollContainer.offsetTop - 20;
                         }
                     }, 10);
                 }
-    
+
+                function runCommand(fullCommand) {
+                    const egg = easterEggs[fullCommand.toLowerCase()];
+                    if (egg) return egg;
+
+                    const parts = fullCommand.split(/\s+/);
+                    const command = parts[0].toLowerCase();
+                    const args = parts.slice(1);
+
+                    if (blocked.includes(command)) {
+                        return `<span class="error">${esc(command)}: permission denied – this is a read-only portfolio 🙂</span>`;
+                    }
+                    if (args.includes('--help')) {
+                        return commands[command]
+                            ? `<span class="command">${command}</span> - ${commands[command].description}`
+                            : `<span class="error">Command not found: ${esc(command)}. Type 'help' for available commands.</span>`;
+                    }
+                    if (commands[command]) return commands[command].execute(args);
+                    return `<span class="error">Command not found: ${esc(command)}. Type 'help' for available commands.</span>`;
+                }
+
                 commandInput.addEventListener('keydown', function(e) {
                     if (e.key === 'Enter') {
                         const fullCommand = commandInput.value.trim();
                         commandInput.value = '';
-                        
-                        if (fullCommand) {
-                            // Add to history
-                            commandHistory.push(fullCommand);
-                            historyIndex = commandHistory.length;
-                            
-                            // Display command
-                            addOutput(`<div class="command-line"><div class="prompt">hriday@portfolio:~$</div> ${fullCommand}</div>`);
-                            
-                            // Handle theme selection mode
-                            if (themeSelectionMode) {
-                                if (changeTheme(fullCommand)) {
-                                    addOutput(`<div class="output">Theme changed to <span class="command">${fullCommand}</span>.</div>`);
-                                } else {
-                                    addOutput(`<div class="error">Theme not found. Type 'theme' to see available themes.</div>`);
-                                }
-                                themeSelectionMode = false;
-                            } 
-                            // Parse command and arguments
-                            else {
-                                const parts = fullCommand.split(' ');
-                                const command = parts[0];
-                                const args = parts.slice(1);
-                                
-                                // Execute command
-                                let output = '';
-                                
-                                // Handle theme command
-                                if (command === 'theme') {
-                                    themeSelectionMode = true;
-                                    output = showThemeOptions();
-                                }
-                                // Handle help for specific commands
-                                else if (command.endsWith('--help')) {
-                                    const cmd = command.split(' ')[0];
-                                    if (commands[cmd]) {
-                                        output = `<span class="command">${cmd}</span> - ${commands[cmd].description}`;
-                                    } else {
-                                        output = `<span class="error">Command not found: ${cmd}. Type 'help' for available commands.</span>`;
-                                    }
-                                }
-                                // Handle regular commands
-                                else if (commands[command]) {
-                                    output = commands[command].execute();
-                                } else if (command.startsWith('cat ')) {
-                                    output = commands['cat resume.pdf'].execute();
-                                } else {
-                                    output = `<span class="error">Command not found: ${command}. Type 'help' for available commands.</span>`;
-                                }
-                                
-                                if (output) {
-                                    addOutput(`<div class="output">${output}</div>`);
-                                }
+                        if (!fullCommand) return;
+
+                        commandHistory.push(fullCommand);
+                        historyIndex = commandHistory.length;
+
+                        addOutput(`<div class="command-line"><div class="prompt">${promptText()}</div> ${esc(fullCommand)}</div>`);
+
+                        if (themeSelectionMode) {
+                            themeSelectionMode = false;
+                            const name = fullCommand.toLowerCase();
+                            if (changeTheme(name)) {
+                                addOutput(`Theme changed to <span class="command">${name}</span>.`);
+                                return;
                             }
+                            if (!commands[name.split(/\s+/)[0]]) {
+                                addOutput(`<span class="error">Theme not found. Type 'theme' to see available themes.</span>`);
+                                return;
+                            }
+                            // Otherwise fall through and run it as a normal command
                         }
-                    } 
+
+                        const output = runCommand(fullCommand);
+                        if (output) addOutput(output);
+                    }
                     else if (e.key === 'ArrowUp') {
-                        // Navigate command history up
                         if (commandHistory.length > 0 && historyIndex > 0) {
                             historyIndex--;
                             commandInput.value = commandHistory[historyIndex];
                             e.preventDefault();
                         }
-                    } else if (e.key === 'ArrowDown') {
-                        // Navigate command history down
+                    }
+                    else if (e.key === 'ArrowDown') {
                         if (commandHistory.length > 0 && historyIndex < commandHistory.length - 1) {
                             historyIndex++;
                             commandInput.value = commandHistory[historyIndex];
@@ -1307,68 +1499,38 @@ GPA: 9.39/10.00 (Approx. 3.9/4.0)
                             commandInput.value = '';
                             e.preventDefault();
                         }
-                    } 
+                    }
                     else if (e.key === 'Tab') {
-                        // Tab completion
                         e.preventDefault();
                         const input = commandInput.value;
-                        if (input) {
-                            const matches = Object.keys(commands).filter(cmd => 
-                                cmd.startsWith(input)
-                            );
-                            if (matches.length === 1) {
-                                commandInput.value = matches[0];
-                            } else if (matches.length > 1) {
-                                addOutput(`<div class="output">${matches.join('    ')}</div>`);
-                            }
+                        if (!input) return;
+                        const parts = input.split(/\s+/);
+                        let candidates, prefix, base;
+                        if (parts.length === 1) {
+                            candidates = Object.keys(commands);
+                            prefix = parts[0];
+                            base = '';
+                        } else {
+                            // Complete file/dir names in the current directory
+                            const node = resolvePath('').node;
+                            candidates = Object.keys(node.children).map(n => node.children[n].type === 'dir' ? n + '/' : n);
+                            prefix = parts[parts.length - 1];
+                            base = parts.slice(0, -1).join(' ') + ' ';
+                        }
+                        const matches = candidates.filter(c => c.startsWith(prefix));
+                        if (matches.length === 1) {
+                            commandInput.value = base + matches[0];
+                        } else if (matches.length > 1) {
+                            addOutput(matches.map(esc).join('    '));
                         }
                     }
                 });
-                    
-                    // ... rest of your event listeners ...);
-    
+
                 // Auto-focus input with animation
                 setTimeout(() => {
                     commandInput.focus();
                     commandInput.style.animation = 'pulse 2s infinite';
                 }, 1000);
-    
-                // Easter egg commands
-                const easterEggs = {
-                    'sudo rm -rf /': "I'm sorry, Hriday. I'm afraid I can't do that.",
-                    'make me a sandwich': "What? Make it yourself.",
-                    'hello world': "Hello, Hriday! 👋",
-                    'open the pod bay doors': "I'm sorry, Hriday. I'm afraid I can't do that.",
-                    'the answer to life the universe and everything': "42",
-                    'whoami': "You are Hriday Shah, an amazing developer!",
-                    'neofetch': `
-    <span class="ascii-art">
-    <span class="command">hriday@portfolio</span>
-    <span class="command">----------------</span>
-    OS: Genius OS 42.0
-    Host: Awesome Developer Machine
-    Kernel: 5.15.0-76-generic
-    Uptime: 42 days, 6 hours, 9 minutes
-    Shell: zsh 5.8
-    Terminal: interactive-terminal-portfolio
-    CPU: Intel i9-13900K (32) @ 5.800GHz
-    GPU: NVIDIA RTX 4090
-    Memory: 64GB DDR5
-                    </span>
-                    `
-                };
-    
-                // Check for easter eggs
-                commandInput.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter') {
-                        const command = commandInput.value.trim();
-                        if (easterEggs[command.toLowerCase()]) {
-                            setTimeout(() => {
-                                addOutput(`<div class="output">${easterEggs[command.toLowerCase()]}</div>`);
-                            }, 100);
-                        }
-                    }
-                });
             }
         });
     </script>

@@ -1,84 +1,102 @@
-# 🚀 **Terminal Portfolio - Built Entirely with AI**  
+# Terminal Portfolio
 
-### **✨ The Project**  
-A **fully interactive terminal-themed portfolio** website, designed to showcase my skills, projects, and experience—**built without writing a single line of code myself!**  
+An interactive, terminal-style portfolio for **Hriday Shah**, an MSc Risk Management & Financial Engineering student at Imperial College London. Visitors explore my background by typing commands, the same way they would in a real shell.
 
----
-
-## **🤖 How I Built This Without Coding Knowledge**  
-
-### **1️⃣ The Idea**  
-I wanted a **unique, geeky portfolio** that stood out. A **terminal-style interface** felt perfect—minimalist, interactive, and developer-friendly.  
-
-### **2️⃣ AI as My Coding Partner**  
-Since I'm **not well-versed in web development**, I turned to **AI tools** (like **DeepSeek, DeepSite AI, and ChatGPT**) to:  
-- **Generate the HTML, CSS, and JavaScript**  
-- **Debug & optimize code**  
-- **Design the terminal UI & animations**  
-- **Implement interactive commands**  
-
-### **3️⃣ The Process**  
-1. **Prompt Engineering** – I described what I wanted in detail (terminal look, commands, animations).  
-2. **AI-Generated Code** – The AI wrote the entire frontend.  
-3. **Tweaking & Testing** – I refined the output by asking AI to adjust styling, responsiveness, and features.  
-4. **Deployment** – Hosted using GitHub Pages/Vercel.  
-
-### **4️⃣ Key Features**  
-✅ **Fully Interactive Terminal** (Type commands like `help`, `projects`, `resume`)  
-✅ **Themes Support** (Change colors with `theme `)  
-✅ **Mobile-Friendly** (Works on phones & tablets)  
-✅ **Pokemon Loading Screen** (Cool retro effect)  
+**Live site:** https://hriday-2010.github.io/Terminal-Portfolio/
 
 ---
 
-## **💡 Why This Matters**  
-### **🚀 Proving Self-Learning & Adaptability**  
-- **I didn’t know web dev**, but AI helped me **build something complex**.  
-- Shows I can **leverage tools to achieve goals** without prior expertise.  
-- Demonstrates **problem-solving & initiative**—key skills in tech!  
+## Quick start for visitors
 
-### **🤖 The Power of AI in Learning**  
-AI isn’t just for experts—it’s a **game-changer for beginners** too!  
-- **Instant prototyping**  
-- **No-code/low-code development**  
-- **Fast learning through experimentation**  
+Open the site and try:
+
+```
+help              # every command
+ll                # list the "files" in the portfolio
+cd projects       # move into a section
+cat README.md     # read it
+cd ..             # go back
+tree              # see the whole layout
+```
+
+## Commands
+
+**Portfolio sections**
+
+| Command | What it shows |
+|---|---|
+| `about` | Who I am and what I'm working on |
+| `projects` | Quant research, ML and engineering projects |
+| `experience` | Work experience, leadership and competitions |
+| `skills` | Technical skills and spoken languages |
+| `education` | Imperial College London and VIT-AP |
+| `publications` | Papers, patents and certifications |
+| `contact` | Email, GitHub, LinkedIn and what I'm looking for |
+
+**Shell-style commands**
+
+| Command | What it does |
+|---|---|
+| `ls [-l] [-a] [dir]` | List files in a directory |
+| `ll` | Long listing (same as `ls -la`) |
+| `cd <dir>` | Change directory (`cd ..`, `cd ~`, `cd` on its own goes home) |
+| `pwd` | Print the current directory |
+| `cat <file>` | Show a file, e.g. `cat about.txt` |
+| `tree` | Show the whole portfolio file tree |
+| `echo <text>` | Print text back |
+| `whoami`, `date`, `history`, `uname [-a]`, `neofetch` | The usual suspects |
+| `man <command>` or `<command> --help` | Describe a command |
+| `github`, `linkedin`, `email` | Open my profiles |
+| `theme` | Switch colour theme (default, dark, light, solarized, dracula) |
+| `clear` | Clear the screen |
+
+Tab completes commands and file names, and ↑/↓ scroll through command history. There are a few easter eggs too.
+
+### Safety
+
+Everything runs in the visitor's browser against a small, read-only, in-memory file tree. No command touches the visitor's machine or any server. Destructive or privileged commands (`rm`, `sudo`, `chmod`, `mv`, `curl`, and similar) are refused with a "permission denied" message, and anything a visitor types is displayed as plain text, never run as HTML.
 
 ---
 
-## **📂 Repository Structure**  
+## Tech
+
+- A single `index.html`: plain HTML, CSS and JavaScript, no build step or framework
+- [Font Awesome](https://fontawesome.com/) for icons
+- Deployed to GitHub Pages by the workflow in `.github/workflows/static.yml` on every push to `main`
+
+## Repository structure
+
 ```
 .
-├── index.html           # Main terminal interface  
-├── trial-webs/  
-│   ├── all prior bs
-└── README.md            # This file!  
+├── index.html                    # The whole site: markup, styles, terminal logic and content
+├── trial-webs/                   # Earlier design drafts, kept for reference
+├── .github/workflows/static.yml  # GitHub Pages deployment
+└── README.md
 ```
 
+## Run locally
+
+```bash
+git clone https://github.com/Hriday-2010/Terminal-Portfolio.git
+cd Terminal-Portfolio
+# open index.html in a browser, or serve it:
+python3 -m http.server 8000   # then visit http://localhost:8000
+```
+
+## Updating the content
+
+All portfolio text lives in the `sections` object inside the `<script>` in `index.html` (`about`, `projects`, `experience`, `skills`, `education`, `publications`, `contact`). Edit the text there and both the named command (e.g. `projects`) and the matching file (e.g. `cat projects/README.md`) update together.
+
+To add a command, add an entry to the `commands` object with a `description` and an `execute(args)` function that returns the HTML to print.
+
 ---
 
-## **🔧 How to Run Locally**  
-1. **Clone the repo**  
-   ```bash
-   git clone https://github.com/yourusername/terminal-portfolio.git
-   ```
-2. **Open `index.html` in a browser**  
+## How it was built
 
----
+I built the first version with AI tools (DeepSeek, DeepSite AI and ChatGPT) at a point when I hadn't done web development before: I described the terminal look and behaviour I wanted, then iterated on the generated code for styling, responsiveness and commands. Later updates, including the shell commands and the refreshed content, were made with Claude. It's been a practical way to learn front-end work by reading, testing and changing real code.
 
-## **🌐 Future Improvements**  
-- Add **more commands** (blog, contact form)  
-- Integrate **real-time API data** (GitHub stats?)  
-- Improve **animations & transitions**  
+## Contact
 
----
-
-## **🎯 Final Thoughts**  
-**This project proves:**  
-🔥 You don’t need to be an expert to build something amazing.  
-🔥 AI can **bridge the gap** between ideas and execution.  
-🔥 With the right tools, **anyone can create**—no coding required!  
-
-**If I can build this without prior experience, imagine what else I can achieve!** 🚀  
-
----  
-💻 **Built with AI, powered by curiosity.** 🚀
+- Email: shah.hriday03@gmail.com
+- LinkedIn: [hriday-shah-59460b290](https://www.linkedin.com/in/hriday-shah-59460b290)
+- GitHub: [Hriday-2010](https://github.com/Hriday-2010)
