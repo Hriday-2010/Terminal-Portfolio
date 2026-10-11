@@ -976,7 +976,7 @@ window.addEventListener('resize', handleMobileViewport);
     <span class="command">Full details:</span> <a href="${SITE.linkedin}" target="_blank" rel="noopener">${SITE.linkedinLabel}</a> · or type <span class="command">resume</span>
 `,
                     projects: `
-    <span class="rainbow-text">Quant &amp; Finance Projects:</span>
+    <span class="rainbow-text">Featured Projects:</span>
     ----------------
 
     <span class="command">Indian ADR Lead-Lag Strategy</span> – Imperial capstone (2026, in progress)
@@ -1004,6 +1004,11 @@ window.addEventListener('resize', handleMobileViewport);
     <span class="tabbed"></span>• Modeled order flow imbalance (OFI) via PCA to explain short-term price movements
     <span class="tabbed"></span>• Based on Cont et al.; technologies: Python, NumPy, SciPy
 
+    <span class="command">Stock Market Forecasting</span> – Hybrid models for financial prediction
+    <span class="tabbed"></span>• ARIMA, LSTM, Liquid Neural Nets, and hybrid pipelines
+    <span class="tabbed"></span>• Short-term trend forecasting and anomaly detection
+    <span class="tabbed"></span>• Technologies: Python, R, Scikit-learn, Keras
+
     <span class="command">Distributed Blockchain Consensus with Liquid Neural Networks</span> – Patent filed (2025)
     <span class="tabbed"></span>• Consensus mechanism using liquid neural networks for adaptive, real-time
     <span class="tabbed"></span>  fraud detection in permissioned financial networks
@@ -1014,24 +1019,23 @@ window.addEventListener('resize', handleMobileViewport);
     <span class="tabbed"></span>• Implemented and tested model aggregation techniques in Python
     <span class="tabbed"></span>• Under the guidance of Dr. Misha Chandar
 
-    <span class="command">Stock Market Forecasting</span> – Hybrid models for financial prediction
-    <span class="tabbed"></span>• ARIMA, LSTM, Liquid Neural Nets, and hybrid pipelines
-    <span class="tabbed"></span>• Short-term trend forecasting and anomaly detection
-    <span class="tabbed"></span>• Technologies: Python, R, Scikit-learn, Keras
-
-    <span class="rainbow-text">Machine Learning &amp; Engineering Projects:</span>
-    ----------------
-
     <span class="command">W.A.L.K</span> – AI-powered mobility device for drop-foot patients (2024 – 2025)
     <span class="tabbed"></span>• Real-time gait analysis using ML and IMU sensor data
     <span class="tabbed"></span>• Incubated at VIT-AP; 1st place in the Incubation Center's startup award
     <span class="tabbed"></span>• Showcased at Startup Mahakumbh
     <span class="tabbed"></span>• Technologies: TensorFlow Lite, Arduino, Python
 
+    Type <span class="command">projects --all</span> to also see 9 earlier ML &amp; engineering projects.
+    <span class="command">View code on GitHub:</span> <a href="${SITE.github}" target="_blank" rel="noopener">github.com/Hriday-2010</a>
+`,
+                    projectsArchive: `
+    <span class="rainbow-text">Earlier ML &amp; Engineering Projects:</span>
+    ----------------
+
     <span class="command">STAG</span> – AI + IoT home energy optimization (Aug 2023 – Mar 2024)
     <span class="tabbed"></span>• Mobile app connected to IoT devices and home solar systems for real-time energy monitoring
     <span class="tabbed"></span>• Predictive forecasting and smart optimization of household energy usage
-    <span class="tabbed"></span>• 3rd place at HACK-AP 2023, the state-level All Andhra Pradesh hackathon (team STAG)
+    <span class="tabbed"></span>• 3rd place at HACK-AP 2023, the state-level All Andhra Pradesh hackathon
     <span class="tabbed"></span>• Showcased at Startup Mahakumbh (Mar 2024)
 
     <span class="command">CRISP</span> – Comprehensive Route Information System for Passengers (2022 – 2023)
@@ -1039,11 +1043,11 @@ window.addEventListener('resize', handleMobileViewport);
     <span class="tabbed"></span>• Streamlines daily commutes across public transit and ridesharing
     <span class="tabbed"></span>• Published at NCAIT-2023 (JSS Academy of Technical Education)
 
-    <span class="command">Liquid Neural Networks for Cetacean Classification</span> – Research (2024, completed)
+    <span class="command">Liquid Neural Networks for Cetacean Classification</span> – Research (2024, working paper)
     <span class="tabbed"></span>• Classifying whale and dolphin species using dynamic audio modeling
     <span class="tabbed"></span>• Technologies: PyTorch, NumPy, Librosa
 
-    <span class="command">Marine Acoustic Detection</span> – Research (2024, completed)
+    <span class="command">Marine Acoustic Detection</span> – Research (2024, working paper)
     <span class="tabbed"></span>• Deep CNNs detecting marine species calls in real-time ocean soundscape data
     <span class="tabbed"></span>• Technologies: Python, PyTorch, Librosa
 
@@ -1077,7 +1081,7 @@ window.addEventListener('resize', handleMobileViewport);
     -------------------
 
     <span class="command">Languages &amp; Databases:</span>
-    Python, SQL, SAS, R, Java, C++, MATLAB, JavaScript, MySQL, PostgreSQL, MongoDB
+    Python, SQL, SAS, R, Java, C++, MySQL, PostgreSQL, MongoDB
 
     <span class="command">AML &amp; Compliance:</span>
     SAS AML, SAS Visual Investigator, Transaction Monitoring, SAR Filing, KYC, Case Management
@@ -1086,15 +1090,12 @@ window.addEventListener('resize', handleMobileViewport);
     Market Microstructure (order flow imbalance), Volatility Forecasting, Execution Optimization,
     Backtesting, Time Series (ARIMA/SARIMA), Anomaly Detection, Bloomberg Terminal
 
-    <span class="command">Financial Libraries:</span>
-    QuantLib, yFinance, TA-Lib, Backtrader, Alphalens, Zipline, StatsModels
-
     <span class="command">Machine Learning:</span>
-    TensorFlow, PyTorch, Scikit-learn, LightGBM, XGBoost, Pandas, NumPy, NLP, LLMs,
+    TensorFlow, PyTorch, Scikit-learn, LightGBM, XGBoost, Pandas, NumPy, SciPy, NLP, LLMs,
     Deep Learning (CNNs, RNNs, Liquid Neural Networks)
 
     <span class="command">Tools:</span>
-    Docker, Git, Flask, REST APIs, Agile, Power BI, Tableau, Linux, JupyterLab
+    Docker, Git, Flask, REST APIs, Agile, Power BI
 
     <span class="command">Spoken Languages:</span>
     English (Fluent), Hindi (Native), Gujarati (Native), Marathi (Fluent), German (Beginner)
@@ -1140,12 +1141,12 @@ window.addEventListener('resize', handleMobileViewport);
     <span class="command">Research Papers:</span>
     1. "CRISP: Comprehensive Route Information System for Passengers" (2023)
        - Published at the 9th National Conference on Advancements in Information Technology (NCAIT-2023), JSSATE
-    2. Faculty research on equity forecasting methodologies (co-author, completed)
+    2. Faculty research on equity forecasting methodologies (co-author)
        - Liquid neural networks and hybrid models for stock market time-series forecasting
-    3. "Classification of Cetacean Species Using Liquid Neural Networks" (2024, completed)
+    3. "Classification of Cetacean Species Using Liquid Neural Networks" (2024, working paper – unpublished)
        - Dynamic neural network architectures for species identification from ocean audio
     4. "Acoustic Detection of Marine Species Calls in Real-Time Ocean Soundscape Data
-       Using Deep Convolutional Neural Networks" (2024, completed)
+       Using Deep Convolutional Neural Networks" (2024, working paper – unpublished)
        - Real-time acoustic monitoring of marine biodiversity using CNNs
 
     <span class="rainbow-text">Certifications &amp; Tests:</span>
@@ -1166,7 +1167,7 @@ window.addEventListener('resize', handleMobileViewport);
     🏆 Top 6, Department Rank – CSE (Data Analytics), VIT, Class of 2025
     📜 2 patents filed – federated learning framework; blockchain–LNN consensus for financial compliance
     🥇 1st place – VIT-AP Incubation Center startup award, for W.A.L.K
-    🥉 3rd place – HACK-AP 2023, state-level All Andhra Pradesh hackathon, with STAG (team STAG)
+    🥉 3rd place – HACK-AP 2023, state-level All Andhra Pradesh hackathon, with STAG
     🥈 Runner-up – inter-college competitive coding contest
     🚀 Represented VIT-AP at India's first Startup Mahakumbh (Mar 2024), presenting STAG and W.A.L.K
        to Prime Minister Shri Narendra Modi
@@ -1187,11 +1188,10 @@ window.addEventListener('resize', handleMobileViewport);
     <span class="command">Email:</span> <a href="mailto:${SITE.email}">${SITE.email}</a>
     <span class="command">LinkedIn:</span> <a href="${SITE.linkedin}" target="_blank" rel="noopener">${SITE.linkedinLabel}</a>
     <span class="command">GitHub:</span> <a href="${SITE.github}" target="_blank" rel="noopener">github.com/Hriday-2010</a>
-    <span class="command">Instagram:</span> <a href="https://www.instagram.com/shah.hriday20/" target="_blank" rel="noopener">@shah.hriday20</a>
     <span class="command">Resume:</span> <a href="${SITE.resume}" target="_blank" rel="noopener">Hriday_Shah_Resume.pdf</a>
 
     <span class="command">Looking for:</span>
-    - 2027 internships and graduate roles in London
+    - Summer 2027 internships, or graduate roles from Sep 2027 (London)
     - Quant risk, quant research / trading, risk &amp; credit analysis, AML
     - Research collaborations
 
@@ -1213,7 +1213,7 @@ window.addEventListener('resize', handleMobileViewport);
                         "contact.txt":      { type: "file", section: "contact" },
                         "resume.pdf":       { type: "file", special: "resume", size: 568808 },
                         "experience":   { type: "dir", children: { "README.md": { type: "file", section: "experience" } } },
-                        "projects":     { type: "dir", children: { "README.md": { type: "file", section: "projects" } } },
+                        "projects":     { type: "dir", children: { "README.md": { type: "file", section: "projects" }, "earlier.md": { type: "file", section: "projectsArchive" } } },
                         "education":    { type: "dir", children: { "README.md": { type: "file", section: "education" } } },
                         "publications": { type: "dir", children: { "README.md": { type: "file", section: "publications" } } }
                     }
@@ -1337,7 +1337,7 @@ window.addEventListener('resize', handleMobileViewport);
     <span class="rainbow-text">Portfolio:</span>
     <span class="command">about</span>          - Who I am and what I'm working on
     <span class="command">experience</span>     - Work experience, leadership &amp; competitions
-    <span class="command">projects</span>       - Quant, ML and engineering projects
+    <span class="command">projects</span> [--all] - Featured projects (--all for everything)
     <span class="command">skills</span>         - Technical skills and spoken languages
     <span class="command">education</span>      - Imperial, VIT, CFA and schooling
     <span class="command">publications</span>   - Patents, papers &amp; certifications
@@ -1367,7 +1367,12 @@ window.addEventListener('resize', handleMobileViewport);
 `
                     },
                     about:        { description: "About Hriday", execute: () => sections.about },
-                    projects:     { description: "View projects with details", execute: () => sections.projects },
+                    projects:     {
+                        description: "Featured projects. Use projects --all to include earlier ML & engineering work",
+                        execute: (args) => (args.includes('--all') || args.includes('-a'))
+                            ? sections.projects.replace(/\n    Type <span class="command">projects --all<\/span>.*\n.*\n$/, '\n') + sections.projectsArchive
+                            : sections.projects
+                    },
                     experience:   { description: "Work experience, leadership and competitions", execute: () => sections.experience },
                     skills:       { description: "Technical skills and languages", execute: () => sections.skills },
                     education:    { description: "Academic background", execute: () => sections.education },

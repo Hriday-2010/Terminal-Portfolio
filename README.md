@@ -27,7 +27,7 @@ tree              # see the whole layout
 |---|---|
 | `about` | Who I am and what I'm working on |
 | `experience` | Work experience, leadership and competitions |
-| `projects` | Quant, ML and engineering projects |
+| `projects [--all]` | Featured quant & ML projects; `--all` adds earlier engineering work |
 | `skills` | Technical skills and spoken languages |
 | `education` | Imperial, VIT, CFA and schooling |
 | `publications` | Patents, papers and certifications |
