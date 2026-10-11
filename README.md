@@ -49,7 +49,7 @@ tree              # see the whole layout
 | `whoami`, `date`, `history`, `uname [-a]`, `neofetch` | The usual suspects |
 | `man <command>` or `<command> --help` | Describe a command |
 | `github`, `linkedin`, `email` | Open my profiles |
-| `theme` | Switch colour theme (default, dark, light, solarized, dracula) |
+| `theme [name]` | List themes or switch; theme names (default, dark, light, solarized, dracula) also work on their own |
 | `clear` | Clear the screen |
 
 Tab completes commands and file names, and ↑/↓ scroll through command history. There are a few easter eggs too.

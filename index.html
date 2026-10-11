@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Hriday Shah | Interactive Terminal</title>
     <meta name="description" content="Hriday Shah – MSc Risk Management &amp; Financial Engineering at Imperial College London. Interactive terminal portfolio: projects, experience, skills and contact.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Add this new CSS */
@@ -65,11 +68,21 @@
         body {
             background-color: #121212;
             color: var(--text-color);
-            font-family: 'SF Mono', 'Courier New', monospace;
+            font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, 'Courier New', monospace;
             line-height: 1.6;
             margin: 0;
             padding: 10px;
-            min-height: 100vh;
+            /* Fill exactly the visible screen. --app-height is set from JS
+               (visualViewport) so Safari's toolbars and keyboard are respected;
+               100dvh and 100vh are fallbacks. */
+            position: fixed;
+            top: var(--app-top, 0px);
+            left: 0;
+            right: 0;
+            height: 100vh;
+            height: 100dvh;
+            height: var(--app-height, 100dvh);
+            overscroll-behavior: none;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -99,7 +112,7 @@
             position: relative;
             z-index: 2;
             color: #0f0;
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
             font-size: 18px;
             text-align: center;
             text-shadow: 0 0 10px #0f0;
@@ -123,41 +136,40 @@
         }
         /* New addition */
         @media (max-width: 768px) {
-    .terminal-container {
-        height: 60vh;
-        min-height: auto;
-        max-height: none;
-        padding: 10px;
-    }
-    
     .terminal {
         height: 100%;
     }
-    
-    .command-line {
-        position: sticky;
-        bottom: 0;
+
+    /* Make the input impossible to miss on phones (main input only,
+       not the echoed commands in the output) */
+    .terminal > .command-line {
         background: var(--bg-color);
-        padding: 10px 0;
-        z-index: 100;
+        padding: 8px 10px calc(8px + env(safe-area-inset-bottom)) 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        flex-shrink: 0;
     }
-    
+
+    .input-line {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--accent-color);
+        border-radius: 6px;
+        padding: 6px 10px;
+    }
+
     #command-input {
-        font-size: 16px; /* Larger text for mobile */
+        font-size: 16px; /* 16px stops iOS zooming in on focus */
     }
 }
 
         .terminal-container {
     width: 100%;
     max-width: 900px;
-    height: 90vh; /* Changed from fixed height */
-    min-height: 500px; /* Minimum height */
+    height: min(90dvh, 100%);  /* desktop: 90% of the visible height */
     display: flex;
     flex-direction: column;
     transform: scale(0.95);
     opacity: 0;
     animation: terminalEntrance 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    padding-bottom: env(safe-area-inset-bottom); /* For iPhone notch */
 }
 /* Prevent zooming on input focus */
 @supports (-webkit-touch-callout: none) {
@@ -187,8 +199,10 @@
     transition: transform 0.3s ease;
 }
 
-        .terminal:hover {
-            transform: translateY(-5px);
+        @media (hover: hover) and (pointer: fine) {
+            .terminal:hover {
+                transform: translateY(-5px);
+            }
         }
 
         .terminal-header {
@@ -311,6 +325,12 @@
     align-items: center;
 }
 
+        /* The live input row: same inset as the output above it */
+        .terminal > .command-line {
+            padding: 10px 15px;
+            margin-bottom: 0;
+        }
+
         .prompt {
             color: var(--prompt-color);
             margin-right: 10px;
@@ -335,9 +355,15 @@
             width: 100%;
             outline: none;
             caret-color: var(--cursor-color);
+            caret-shape: block;
             flex-grow: 1;
             text-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
             letter-spacing: 0.3px;
+        }
+
+        #command-input::placeholder {
+            color: var(--text-color);
+            opacity: 0.45;
         }
 
         #command-input::selection {
@@ -473,10 +499,14 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                padding: 6px;
+            }
+
+            /* Phones: the terminal fills the whole visible screen */
             .terminal-container {
-                height: 85vh;
-                max-width: 95%;
-                max-height: none;
+                height: 100%;
+                max-width: 100%;
             }
             
             .ascii-art {
@@ -515,9 +545,6 @@
         }
 
         @media (max-width: 480px) {
-            .terminal-container {
-                height: 90vh;
-            }
             
             .ascii-art {
                 font-size: 6px;
@@ -685,7 +712,7 @@
                     <div class="terminal-button button-yellow"></div>
                     <div class="terminal-button button-green"></div>
                 </div>
-                <div class="terminal-title">Hriday Shah — Interactive Terminal</div>
+                <div class="terminal-title">hriday@portfolio</div>
                 
                 <div class="header-social-icons">
                     <a href="https://github.com/Hriday-2010" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i></a>
@@ -711,39 +738,35 @@
             <div class="command-line">
                 <div class="prompt" id="main-prompt">hriday@portfolio:~$</div>
                 <div class="input-line">
-                    <input type="text" id="command-input" autofocus spellcheck="false" autocorrect="off" autocapitalize="off">
-                    <div class="cursor"></div>
+                    <input type="text" id="command-input" autofocus spellcheck="false" autocorrect="off" autocapitalize="off" autocomplete="off" enterkeyhint="go" aria-label="Terminal command" placeholder="type a command, e.g. help">
                 </div>
             </div>
         </div>
     </div>
     <script>
-        // new shit
-
-        // Add this to your initTerminal() function
-function handleMobileViewport() {
-    // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
-    let vh = window.innerHeight * 0.01;
-    // Then we set the value in the --vh custom property to the root of the document
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-    
-    // Handle keyboard appearing on mobile
-    const commandInput = document.getElementById('command-input');
-    commandInput.addEventListener('focus', () => {
-        setTimeout(() => {
-            document.querySelector('.command-line').scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'nearest' 
-            });
-        }, 300);
-    });
-}
-
-// Run on load and resize
-window.addEventListener('load', handleMobileViewport);
-window.addEventListener('resize', handleMobileViewport);
-
-// new shit ends 
+        // ---------------------------------------------------------------
+        // Mobile viewport: size the page to the area the visitor can actually
+        // see. On iOS Safari, 100vh ignores the toolbars and the keyboard just
+        // covers the page, which hid the input line. visualViewport reports the
+        // real visible area, so the terminal always fits and the input stays
+        // pinned at the bottom without the page itself scrolling.
+        // ---------------------------------------------------------------
+        function fitToViewport() {
+            const vv = window.visualViewport;
+            const height = vv ? vv.height : window.innerHeight;
+            const top = vv ? vv.offsetTop : 0;
+            const root = document.documentElement.style;
+            root.setProperty('--app-height', `${height}px`);
+            root.setProperty('--app-top', `${top}px`);
+            if (window.scrollY !== 0) window.scrollTo(0, 0);
+        }
+        fitToViewport();
+        window.addEventListener('resize', fitToViewport);
+        window.addEventListener('orientationchange', () => setTimeout(fitToViewport, 300));
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', fitToViewport);
+            window.visualViewport.addEventListener('scroll', fitToViewport);
+        }
         document.addEventListener('DOMContentLoaded', function() {
             const loadingScreen = document.getElementById('loading-screen');
             const terminalContainer = document.querySelector('.terminal-container');
@@ -874,7 +897,7 @@ window.addEventListener('resize', handleMobileViewport);
                         for (const [name, theme] of Object.entries(themes)) {
                             output += `<span class="command">${name}</span> - ${theme.accent}<span style="color:${theme.accent}">■</span> ${theme.bg}<span style="background:${theme.bg};padding:0 5px">■</span>\n`;
                         }
-                        output += '\nType just the theme name to change (e.g. <span class="command">dracula</span>)';
+                        output += '\nType a theme name to switch (e.g. <span class="command">dracula</span>), as many times as you like.';
                         return output;
                     }
 
@@ -1330,7 +1353,6 @@ window.addEventListener('resize', handleMobileViewport);
 
                 const commandHistory = [];
                 let historyIndex = -1;
-                let themeSelectionMode = false;
 
                 const commands = {
                     help: {
@@ -1339,7 +1361,7 @@ window.addEventListener('resize', handleMobileViewport);
     <span class="rainbow-text">Portfolio:</span>
     <span class="command">about</span>          - Who I am and what I'm working on
     <span class="command">experience</span>     - Work experience, leadership &amp; competitions
-    <span class="command">projects</span> [--all] - Featured projects (--all for everything)
+    <span class="command">projects</span>       - Featured projects (projects --all for everything)
     <span class="command">skills</span>         - Technical skills and spoken languages
     <span class="command">education</span>      - Imperial, VIT, CFA and schooling
     <span class="command">publications</span>   - Patents, papers &amp; certifications
@@ -1348,7 +1370,7 @@ window.addEventListener('resize', handleMobileViewport);
     <span class="command">resume</span>         - Open my resume (PDF)
 
     <span class="rainbow-text">Shell:</span>
-    <span class="command">ls</span> [-l] [-a] [dir] - List files       <span class="command">ll</span>            - Long listing (ls -la)
+    <span class="command">ls</span> [-la] [dir]    - List files          <span class="command">ll</span>            - Long listing (ls -la)
     <span class="command">cd</span> &lt;dir&gt;          - Change directory    <span class="command">pwd</span>           - Print working directory
     <span class="command">cat</span> &lt;file&gt;        - Show a file         <span class="command">tree</span>          - Show the file tree
     <span class="command">echo</span> &lt;text&gt;       - Print text          <span class="command">whoami</span>        - Who are you?
@@ -1360,7 +1382,7 @@ window.addEventListener('resize', handleMobileViewport);
     <span class="command">github</span>         - Open my GitHub
     <span class="command">linkedin</span>       - Open my LinkedIn
     <span class="command">email</span>          - Email me
-    <span class="command">theme</span>          - Change colour theme
+    <span class="command">theme</span> [name]   - List themes, or switch (theme names also work alone)
     <span class="command">help</span>           - Show this list
     <span class="command">exit</span>           - Close terminal (just kidding)
 
@@ -1475,8 +1497,14 @@ window.addEventListener('resize', handleMobileViewport);
                         execute: () => { outputContainer.innerHTML = '<div class="output"></div>'; return ''; }
                     },
                     theme: {
-                        description: "Change terminal color theme",
-                        execute: () => { themeSelectionMode = true; return showThemeOptions(); }
+                        description: "List themes, or switch with theme <name>. Theme names (dark, light, dracula...) also work on their own",
+                        execute: (args) => {
+                            if (!args.length) return showThemeOptions();
+                            const name = args[0].toLowerCase();
+                            return changeTheme(name)
+                                ? `Theme changed to <span class="command">${name}</span>.`
+                                : `<span class="error">Theme not found: ${esc(name)}. Type 'theme' to see available themes.</span>`;
+                        }
                     },
                     exit: {
                         description: "Close terminal",
@@ -1525,6 +1553,10 @@ window.addEventListener('resize', handleMobileViewport);
                             : `<span class="error">Command not found: ${esc(command)}. Type 'help' for available commands.</span>`;
                     }
                     if (commands[command]) return commands[command].execute(args);
+                    // A theme name on its own switches theme, any time
+                    if (!args.length && changeTheme(command)) {
+                        return `Theme changed to <span class="command">${command}</span>.`;
+                    }
                     return `<span class="error">Command not found: ${esc(command)}. Type 'help' for available commands.</span>`;
                 }
 
@@ -1538,20 +1570,6 @@ window.addEventListener('resize', handleMobileViewport);
                         historyIndex = commandHistory.length;
 
                         addOutput(`<div class="command-line"><div class="prompt">${promptText()}</div> ${esc(fullCommand)}</div>`);
-
-                        if (themeSelectionMode) {
-                            themeSelectionMode = false;
-                            const name = fullCommand.toLowerCase();
-                            if (changeTheme(name)) {
-                                addOutput(`Theme changed to <span class="command">${name}</span>.`);
-                                return;
-                            }
-                            if (!commands[name.split(/\s+/)[0]]) {
-                                addOutput(`<span class="error">Theme not found. Type 'theme' to see available themes.</span>`);
-                                return;
-                            }
-                            // Otherwise fall through and run it as a normal command
-                        }
 
                         const output = runCommand(fullCommand);
                         if (output) addOutput(output);
@@ -1600,10 +1618,22 @@ window.addEventListener('resize', handleMobileViewport);
                     }
                 });
 
+                // Tap anywhere on the terminal to start typing (links still work,
+                // and selecting text to copy isn't interrupted)
+                document.querySelector('.terminal').addEventListener('click', (e) => {
+                    if (e.target.closest('a, .terminal-button')) return;
+                    if (window.getSelection().toString()) return;
+                    commandInput.focus({ preventScroll: true });
+                });
+                if (window.matchMedia('(hover: none)').matches) {
+                    commandInput.placeholder = 'tap here and type help';
+                }
+                commandInput.addEventListener('focus', () => setTimeout(fitToViewport, 50));
+                commandInput.addEventListener('blur', () => setTimeout(fitToViewport, 50));
+
                 // Auto-focus input with animation
                 setTimeout(() => {
-                    commandInput.focus();
-                    commandInput.style.animation = 'pulse 2s infinite';
+                    commandInput.focus({ preventScroll: true });
                 }, 1000);
             }
         });
